@@ -54,12 +54,11 @@ dependencies {
     implementation(platform("androidx.compose:compose-bom:2023.01.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material:material")
     implementation("androidx.compose.material3:material3")
     //firebase
     implementation(platform("com.google.firebase:firebase-bom:31.3.0"))
     implementation("com.google.firebase:firebase-auth-ktx")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4")
+    implementation("com.google.android.gms:play-services-auth:20.4.1")
     //hilt
     val hilt_version = "2.45"
     implementation("com.google.dagger:hilt-android:$hilt_version")
@@ -72,6 +71,7 @@ dependencies {
     val coroutines_version = "1.6.4"
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutines_version")
     //google icon
     implementation("androidx.compose.material:material-icons-core")
     implementation("androidx.compose.material:material-icons-extended")

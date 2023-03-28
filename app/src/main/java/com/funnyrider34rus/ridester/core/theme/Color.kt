@@ -1,4 +1,4 @@
-package com.funnyrider34rus.ridester.ui.theme
+package com.funnyrider34rus.ridester.core.theme
 
 import androidx.compose.ui.graphics.Color
 
