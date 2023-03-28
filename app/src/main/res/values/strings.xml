@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Ridester</string>
+    <!-- resources for bottomnavbar -->
+    <string name="bottomnavbar_lable_dashboard">Лента</string>
+    <string name="bottomnavbar_lable_chat">Чат</string>
+    <string name="bottomnavbar_lable_ride">Драйв</string>
+    <string name="bottomnavbar_lable_profile">Профиль</string>
+
+    <!-- resources for login screen -->
+    <string name="screen_login_title">Условия ипользования</string>
+    <string name="screen_login_body">Данное программное обеспечение распрастраняется по принципу \"как есть\". Автор не несет ответственности за любые проблемы, которые могут возникнуть при использовании данного приложения.\nДанные, к которым получает доступ приложение, не отправляются третьим лицам, за исключением компании Google Inc., так как приложение использует сервисы данной компании.\nПравовообладателями на торговые знаки и марки Google Maps, Google Play Service, Google Firebase является компания Google.</string>
+    <string name="screen_login_checkbox">Я прочитал лицензионное соглашение и согласен с условиями пользования</string>
+    <string name="screen_login_button">Войти</string>
+</resources>
