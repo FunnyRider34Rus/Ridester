@@ -12,12 +12,12 @@ fun RidesterErrorWidget(
     title: String,
     text: String,
     buttonText: String,
-    onDismiss: () -> Unit
+    onButtonClick: () -> Unit
 ) {
     AlertDialog(
-        onDismissRequest = onDismiss,
+        onDismissRequest = {  },
         confirmButton = {
-            TextButton(onClick = onDismiss) {
+            TextButton(onClick = onButtonClick) {
                 Text(text = buttonText)
             }
         },
@@ -35,6 +35,6 @@ fun ErrorWidgetPreview() {
         title = "Title",
         text = "Text",
         buttonText = "Ok",
-        onDismiss = {  }
+        onButtonClick = {  }
     )
 }

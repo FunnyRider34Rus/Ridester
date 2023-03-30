@@ -1,7 +1,6 @@
 package com.funnyrider34rus.ridester.ui.login
 
 import android.app.Activity
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clipScrollableContainer
@@ -23,11 +22,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.funnyrider34rus.ridester.R
 import com.funnyrider34rus.ridester.core.components.RidesterCenterTopAppBar
 import com.funnyrider34rus.ridester.core.components.RidesterErrorWidget
 import com.funnyrider34rus.ridester.core.components.RidesterLoadingWidget
-import com.funnyrider34rus.ridester.core.util.TAG
+import com.funnyrider34rus.ridester.core.navigation.Screen
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -36,8 +37,8 @@ import com.google.firebase.auth.GoogleAuthProvider
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScreenLogIn(
-    viewModel: LogInViewModel = hiltViewModel(),
-    navigateToNextScreen: () -> Unit
+    navController: NavController,
+    viewModel: LogInViewModel = hiltViewModel()
 ) {
 
     val containerScrollState = rememberScrollState()
@@ -46,7 +47,6 @@ fun ScreenLogIn(
 
     val context = LocalContext.current
     val token = stringResource(R.string.default_web_client_id)
-    val errorMessage = stringResource(id = R.string.screen_login_error_text)
 
     val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
         val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
@@ -55,12 +55,11 @@ fun ScreenLogIn(
             val credential = GoogleAuthProvider.getCredential(account.idToken!!, null)
             viewModel.onEvent(LogInEvent.ButtonClick(credential))
         } catch (e: ApiException) {
-            viewModel.onEvent(LogInEvent.Error(errorMessage))
-            e.localizedMessage?.let { error -> Log.d(TAG, error) }
+            viewModel.onEvent(LogInEvent.Error(e.localizedMessage))
         }
     }
 
-    if (viewState.value.isUserAuth) navigateToNextScreen
+    if (viewState.value.isUserAuth) navController.navigate(Screen.DASHBOARDLIST.route)
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -85,7 +84,7 @@ fun ScreenLogIn(
                 title = "Error",
                 text = viewState.value.error,
                 buttonText = stringResource(id = R.string.screen_login_error_button),
-                onDismiss = { activity?.finish() }
+                onButtonClick = { activity?.finish() }
             )
         }
 
@@ -151,5 +150,5 @@ fun ScreenLogIn(
 @Preview
 @Composable
 fun LoginInPreview() {
-    ScreenLogIn(navigateToNextScreen = { })
+    ScreenLogIn(rememberNavController())
 }

@@ -1,20 +1,21 @@
 package com.funnyrider34rus.ridester.core.components
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Dashboard
-import androidx.compose.material.icons.filled.Message
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.SportsMotorsports
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -36,7 +37,10 @@ fun RidesterBottomNavBar(navController: NavController) {
     val bottomBarDestination = bottomNavBarScreens.any { it.route == currentDestination?.route }
 
     if (bottomBarDestination) {
-        NavigationBar {
+        BottomNavigation(
+            modifier = Modifier.height(64.dp),
+            backgroundColor = MaterialTheme.colorScheme.background
+        ) {
             bottomNavBarScreens.forEach { screen ->
                 AddItem(
                     screen = screen,
@@ -54,14 +58,20 @@ fun RowScope.AddItem(
     currentDestination: NavDestination?,
     navController: NavController
 ) {
-    NavigationBarItem(
+    BottomNavigationItem(
         label = {
-            Text(text = stringResource(screen.lable))
+            Text(
+                text = stringResource(screen.lable),
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.labelLarge
+            )
         },
         icon = {
             Icon(
-                imageVector = screen.icon,
-                contentDescription = stringResource(screen.lable)
+                painter = painterResource(screen.icon),
+                contentDescription = stringResource(screen.lable),
+                modifier = Modifier.size(32.dp),
+                tint = MaterialTheme.colorScheme.primary
             )
         },
         selected = currentDestination?.hierarchy?.any {
@@ -80,29 +90,29 @@ fun RowScope.AddItem(
 sealed class RidesterBottomNavBarItem(
     val route: String,
     @StringRes val lable: Int,
-    val icon: ImageVector
+    @DrawableRes val icon: Int
 ) {
     object Dashboard : RidesterBottomNavBarItem(
         route = Screen.DASHBOARDLIST.route,
         lable = R.string.bottomnavbar_lable_dashboard,
-        icon = Icons.Default.Dashboard
+        icon = R.drawable.ic_dashboard_outline
     )
 
     object Chat : RidesterBottomNavBarItem(
         route = Screen.CHAT.route,
         lable = R.string.bottomnavbar_lable_chat,
-        icon = Icons.Default.Message
+        icon = R.drawable.ic_messages_outline
     )
 
     object Ride : RidesterBottomNavBarItem(
         route = Screen.RIDE.route,
         lable = R.string.bottomnavbar_lable_ride,
-        icon = Icons.Default.SportsMotorsports
+        icon = R.drawable.ic_motorcycle_outline
     )
 
     object Profile : RidesterBottomNavBarItem(
         route = Screen.PROFILE.route,
         lable = R.string.bottomnavbar_lable_profile,
-        icon = Icons.Default.Person
+        icon = R.drawable.ic_user_outline
     )
 }
