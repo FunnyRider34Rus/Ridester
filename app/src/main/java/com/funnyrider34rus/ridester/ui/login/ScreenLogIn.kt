@@ -56,13 +56,11 @@ fun ScreenLogIn(
             viewModel.onEvent(LogInEvent.ButtonClick(credential))
         } catch (e: ApiException) {
             viewModel.onEvent(LogInEvent.Error(errorMessage))
-            e.localizedMessage?.let { _e -> Log.d(TAG, _e) }
+            e.localizedMessage?.let { error -> Log.d(TAG, error) }
         }
     }
 
-    if (viewState.value.isUserAuth) {
-        navigateToNextScreen
-    }
+    if (viewState.value.isUserAuth) navigateToNextScreen
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
