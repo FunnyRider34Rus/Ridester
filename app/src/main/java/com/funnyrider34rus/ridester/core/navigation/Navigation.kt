@@ -31,7 +31,7 @@ fun Navigation(navController: NavHostController, startDestination: String) {
                 ScreenLogIn(navController = navController)
             }
             composable(route = Screen.DASHBOARDLIST.route) {
-                ScreenDashboard(navController = navController, modifier = Modifier)
+                ScreenDashboard(navController = navController, modifier = modifier)
             }
             composable(route = Screen.CHAT.route) {
                 ScreenChat()

@@ -65,7 +65,7 @@ fun ScreenLogIn(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             RidesterCenterTopAppBar(
-                titleRes = R.string.screen_login_title,
+                title = stringResource(R.string.screen_login_title),
                 modifier = Modifier
             )
         }

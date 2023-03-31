@@ -81,8 +81,14 @@ dependencies {
     //google icon
     implementation("androidx.compose.material:material-icons-core")
     implementation("androidx.compose.material:material-icons-extended")
-    //Google Fonts
+    //google Fonts
     implementation("androidx.compose.ui:ui-text-google-fonts")
+    //coil
+    val coil_version = "2.2.2"
+    implementation("io.coil-kt:coil-compose:$coil_version")
+    implementation("com.github.skydoves:landscapist-coil:2.1.5")
+    //effects
+    implementation("com.github.skydoves:landscapist-transformation:2.1.5")
     //tests
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

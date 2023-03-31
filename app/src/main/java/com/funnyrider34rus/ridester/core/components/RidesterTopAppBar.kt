@@ -1,6 +1,5 @@
 package com.funnyrider34rus.ridester.core.components
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -15,14 +14,14 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun RidesterTopAppBar(
     modifier: Modifier,
-    @StringRes titleRes: Int,
+    title: String,
     navigationIcon: @Composable () -> Unit,
     actions: @Composable (RowScope.() -> Unit)
 ) {
     TopAppBar(
         title = {
             Text(
-                text = stringResource(titleRes),
+                text = title,
                 style = MaterialTheme.typography.titleLarge
             )
         },
@@ -36,7 +35,7 @@ fun RidesterTopAppBar(
 @Composable
 fun TopAppBarPreview() {
     RidesterTopAppBar(
-        titleRes = android.R.string.untitled,
+        title = stringResource(id = android.R.string.untitled),
         modifier = Modifier,
         navigationIcon = { },
         actions = { }

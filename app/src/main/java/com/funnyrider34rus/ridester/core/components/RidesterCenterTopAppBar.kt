@@ -1,12 +1,9 @@
 package com.funnyrider34rus.ridester.core.components
 
-import androidx.annotation.StringRes
-import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -16,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RidesterCenterTopAppBar(
-    @StringRes titleRes: Int,
+    title: String,
     navigationIcon: ImageVector,
     actionIcon: ImageVector,
     modifier: Modifier,
@@ -27,7 +24,7 @@ fun RidesterCenterTopAppBar(
         title =
         {
             Text(
-                text = stringResource(id = titleRes),
+                text = title,
                 style = MaterialTheme.typography.titleLarge
             )
         },
@@ -54,13 +51,13 @@ fun RidesterCenterTopAppBar(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RidesterCenterTopAppBar(
-    @StringRes titleRes: Int,
+    title: String,
     modifier: Modifier
 ) {
     CenterAlignedTopAppBar(
         title = {
             Text(
-                text = stringResource(titleRes),
+                text = title,
                 style = MaterialTheme.typography.titleLarge
             )
         },
@@ -72,7 +69,7 @@ fun RidesterCenterTopAppBar(
 @Composable
 fun CenterTopAppBarPreview() {
     RidesterCenterTopAppBar(
-        titleRes = android.R.string.untitled,
+        title = stringResource(android.R.string.untitled),
         navigationIcon = Icons.Default.Search,
         actionIcon = Icons.Default.Menu,
         modifier = Modifier
