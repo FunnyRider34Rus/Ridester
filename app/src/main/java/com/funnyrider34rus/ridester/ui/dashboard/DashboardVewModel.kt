@@ -48,6 +48,9 @@ class DashboardVewModel @Inject constructor(private val useCases: DashboardUseCa
             is DashboardEvent.CommentClick -> {
 
             }
+            is DashboardEvent.CreateClick -> {
+
+            }
         }
     }
 }

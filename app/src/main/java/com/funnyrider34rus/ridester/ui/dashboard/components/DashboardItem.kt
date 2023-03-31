@@ -11,16 +11,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.funnyrider34rus.ridester.R
 import com.funnyrider34rus.ridester.core.components.RidesterCenterTopAppBar
 import com.funnyrider34rus.ridester.core.util.timestampToDate
 import com.funnyrider34rus.ridester.domain.model.DashboardContent
 import com.funnyrider34rus.ridester.domain.model.DashboardType
-import com.funnyrider34rus.ridester.ui.dashboard.DashboardEvent
-import com.funnyrider34rus.ridester.ui.dashboard.DashboardVewModel
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
@@ -38,8 +36,9 @@ fun DashboardItem(
             title = content.title.toString(),
             modifier = Modifier
         )
+
         ContentBody(
-            modifier = Modifier,
+            modifier = Modifier.weight(1f),
             content = content
             )
 
@@ -83,18 +82,6 @@ fun ContentBody(modifier: Modifier, content: DashboardContent) {
             style = MaterialTheme.typography.bodyLarge
         )
         Text(
-            text = when (content.type) {
-                DashboardType.NEWS -> "#новость"
-                DashboardType.POST -> "#пост"
-                else -> ""
-            },
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(ButtonDefaults.TextButtonContentPadding),
-            color = MaterialTheme.colorScheme.background,
-            style = MaterialTheme.typography.labelSmall
-        )
-        Text(
             text = timestampToDate(content.timestamp),
             modifier = Modifier
                 .align(Alignment.BottomEnd)
@@ -108,17 +95,14 @@ fun ContentBody(modifier: Modifier, content: DashboardContent) {
 @Composable
 fun Footer(
     modifier: Modifier,
-    content: DashboardContent,
-    viewModel: DashboardVewModel = hiltViewModel()
+    content: DashboardContent
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier.padding(start = 16.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(
-            onClick = {
-                viewModel.onEvent(DashboardEvent.LikeClick)
-            },
+            onClick = { /*TODO*/ },
         ) {
             Icon(
                 painter = painterResource(R.drawable.ic_like_outline),
@@ -127,16 +111,24 @@ fun Footer(
             )
         }
         Text(
-            text = if (content.likes.isNullOrEmpty()) "0" else content.likes.size.toString()
+            text = if (content.likes.isNullOrEmpty()) "0" else content.likes.size.toString(),
+            color = MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.bodySmall
         )
-        IconButton(onClick = { /*TODO*/ }) {
+        IconButton(
+            onClick = { /*TODO*/ },
+            modifier = Modifier.padding(start = 16.dp)
+        ) {
             Icon(
                 painter = painterResource(R.drawable.ic_comment_outline),
-                contentDescription = null
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary
             )
         }
         Text(
-            text = "0"
+            text = "0",
+            color = MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.bodySmall
         )
         Spacer(modifier = modifier.weight(1f))
         IconButton(
@@ -149,4 +141,13 @@ fun Footer(
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun DashboardPreview() {
+    DashboardItem(
+        modifier = Modifier,
+        content = DashboardContent()
+    )
 }

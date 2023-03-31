@@ -59,7 +59,9 @@ fun ScreenLogIn(
         }
     }
 
-    if (viewState.value.isUserAuth) navController.navigate(Screen.DASHBOARDLIST.route)
+    if (viewState.value.isUserAuth) navController.navigate(Screen.DASHBOARDLIST.route) {
+        launchSingleTop = true
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -113,7 +115,7 @@ fun ScreenLogIn(
                 )
                 Text(
                     text = stringResource(id = R.string.screen_login_checkbox),
-                    style = MaterialTheme.typography.labelSmall
+                    style = MaterialTheme.typography.bodySmall
                 )
             }
             Button(
@@ -139,10 +141,10 @@ fun ScreenLogIn(
                 Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
                 Text(
                     text = stringResource(id = R.string.screen_login_button),
-                    style = MaterialTheme.typography.labelLarge
+                    style = MaterialTheme.typography.bodySmall
                 )
             }
-            //Spacer(modifier = Modifier.size(16.dp))
+            Spacer(modifier = Modifier.size(16.dp))
         }
     }
 }
