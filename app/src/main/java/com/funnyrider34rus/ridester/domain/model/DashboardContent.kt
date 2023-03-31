@@ -7,7 +7,6 @@ data class DashboardContent(
     val timestamp: Timestamp? = null,
     val uid: String? = null,
     val title: String? = null,
-    val header: String? = null,
     val body: String? = null,
     val image: String? = null,
     val likes: List<String>? = null,

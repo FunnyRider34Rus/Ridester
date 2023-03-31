@@ -54,21 +54,23 @@ fun RidesterCenterTopAppBar(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RidesterCenterTopAppBar(
-    title: String,
+    @StringRes titleRes: Int,
     modifier: Modifier
 ) {
     CenterAlignedTopAppBar(
-        title = { Text(
-            text = title,
-            style = MaterialTheme.typography.titleLarge
-        ) },
+        title = {
+            Text(
+                text = stringResource(titleRes),
+                style = MaterialTheme.typography.titleLarge
+            )
+        },
         modifier = modifier
     )
 }
 
 @Preview
 @Composable
-fun TopAppBarPreview() {
+fun CenterTopAppBarPreview() {
     RidesterCenterTopAppBar(
         titleRes = android.R.string.untitled,
         navigationIcon = Icons.Default.Search,
