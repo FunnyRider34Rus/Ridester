@@ -115,7 +115,7 @@ fun ScreenLogIn(
                 )
                 Text(
                     text = stringResource(id = R.string.screen_login_checkbox),
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
             Button(
@@ -127,7 +127,7 @@ fun ScreenLogIn(
 
                     val googleSignInClient = GoogleSignIn.getClient(context, gso)
                     launcher.launch(googleSignInClient.signInIntent)
-                          },
+                },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = viewState.value.isCheck,
                 contentPadding = ButtonDefaults.ContentPadding
@@ -135,13 +135,13 @@ fun ScreenLogIn(
                 Icon(
                     painter = painterResource(id = R.drawable.google_logo),
                     contentDescription = stringResource(id = R.string.screen_login_button_description),
-                    modifier = Modifier.size(12.dp),
+                    modifier = Modifier.size(16.dp),
                     tint = Color.Unspecified
                 )
                 Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
                 Text(
                     text = stringResource(id = R.string.screen_login_button),
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
             Spacer(modifier = Modifier.size(16.dp))

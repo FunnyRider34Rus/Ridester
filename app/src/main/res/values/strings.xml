@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">Ridester</string>
+    <!-- common -->
+    <string name="common_error_gms_title">Ошибка</string>
+    <string name="common_error_gms">На устройстве не найдены Google Play Services. Без их наличия дальнейшая работа приложения не возможна</string>
+    <string name="common_error_gms_button">Выход</string>
+    <string name="common_error_connection_title">Ошибка</string>
+    <string name="common_error_connection">Пожалйста, проверьте соединение с сетью интернет</string>
+    <string name="common_error_connection_button">Повторить</string>
+
     <!-- resources for bottomnavbar -->
     <string name="bottomnavbar_lable_dashboard">Лента</string>
     <string name="bottomnavbar_lable_chat">Чат</string>
@@ -12,6 +20,5 @@
     <string name="screen_login_checkbox">Я прочитал лицензионное соглашение и согласен с условиями пользования</string>
     <string name="screen_login_button">Войти</string>
     <string name="screen_login_button_description">Войти с аккаунтом Google</string>
-    <string name="screen_login_error_text">Ошибка авторизации. Попробуйте зайти позже.</string>
     <string name="screen_login_error_button">Выйти</string>
 </resources>

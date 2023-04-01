@@ -7,12 +7,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material3.Icon
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -39,7 +40,7 @@ fun RidesterBottomNavBar(navController: NavController) {
     if (bottomBarDestination) {
         BottomNavigation(
             modifier = Modifier.height(64.dp),
-            backgroundColor = MaterialTheme.colorScheme.background
+            backgroundColor = Color.White
         ) {
             bottomNavBarScreens.forEach { screen ->
                 AddItem(

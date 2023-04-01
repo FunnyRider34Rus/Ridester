@@ -9,8 +9,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -33,7 +31,7 @@ fun ScreenDashboard(
     navController: NavController,
     modifier: Modifier,
     viewModel: DashboardVewModel = hiltViewModel()
-    ) {
+) {
 
     val viewState by viewModel.viewState.collectAsState(DashboardViewState())
     val lazyListState = rememberLazyListState()
@@ -44,7 +42,7 @@ fun ScreenDashboard(
         RidesterTopAppBar(
             title = stringResource(R.string.bottomnavbar_lable_dashboard),
             modifier = Modifier,
-            navigationIcon = {  },
+            navigationIcon = { },
             actions = {
                 IconButton(
                     onClick = { /*TODO*/ }

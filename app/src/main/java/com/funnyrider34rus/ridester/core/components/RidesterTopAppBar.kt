@@ -26,12 +26,14 @@ fun RidesterTopAppBar(
         title = {
             Text(
                 text = title,
+                modifier = Modifier.padding(start = 4.dp),
+                color = MaterialTheme.colorScheme.onPrimary,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 style = MaterialTheme.typography.titleLarge
             )
         },
-        modifier = modifier.padding(8.dp),
+        modifier = modifier.padding(4.dp),
         navigationIcon = navigationIcon,
         actions = actions
     )

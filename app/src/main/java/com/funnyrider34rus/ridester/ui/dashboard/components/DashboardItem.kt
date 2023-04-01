@@ -13,12 +13,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.funnyrider34rus.ridester.R
 import com.funnyrider34rus.ridester.core.components.RidesterCenterTopAppBar
 import com.funnyrider34rus.ridester.core.util.timestampToDate
 import com.funnyrider34rus.ridester.domain.model.DashboardContent
-import com.funnyrider34rus.ridester.domain.model.DashboardType
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
@@ -113,7 +113,7 @@ fun Footer(
         Text(
             text = if (content.likes.isNullOrEmpty()) "0" else content.likes.size.toString(),
             color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.bodySmall
+            style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp)
         )
         IconButton(
             onClick = { /*TODO*/ },
@@ -128,7 +128,7 @@ fun Footer(
         Text(
             text = "0",
             color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.bodySmall
+            style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp)
         )
         Spacer(modifier = modifier.weight(1f))
         IconButton(

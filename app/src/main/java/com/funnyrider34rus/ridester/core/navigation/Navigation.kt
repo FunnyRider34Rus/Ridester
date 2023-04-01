@@ -34,13 +34,13 @@ fun Navigation(navController: NavHostController, startDestination: String) {
                 ScreenDashboard(navController = navController, modifier = modifier)
             }
             composable(route = Screen.CHAT.route) {
-                ScreenChat()
+                ScreenChat(modifier = modifier)
             }
             composable(route = Screen.RIDE.route) {
-                ScreenRide()
+                ScreenRide(modifier = modifier)
             }
             composable(route = Screen.PROFILE.route) {
-                ScreenProfile()
+                ScreenProfile(modifier = modifier)
             }
         }
     }
