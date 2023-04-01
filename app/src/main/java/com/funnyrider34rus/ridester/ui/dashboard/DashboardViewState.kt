@@ -8,7 +8,8 @@ data class DashboardViewState(
     val isError: Boolean = false,
     val error: String = "",
     val isLike: LikesStatus = LikesStatus.NONE,
-    val isComment: Boolean = false
+    val isComment: Boolean = false,
+    val isBodyExpand: Boolean = false
 )
 
 enum class LikesStatus {

@@ -4,12 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.compose.rememberNavController
 import com.funnyrider34rus.ridester.R
 import com.funnyrider34rus.ridester.core.components.RidesterErrorWidget
 import com.funnyrider34rus.ridester.core.navigation.Navigation
@@ -17,6 +17,7 @@ import com.funnyrider34rus.ridester.core.navigation.Screen
 import com.funnyrider34rus.ridester.core.theme.RidesterTheme
 import com.funnyrider34rus.ridester.core.util.InternetConnectionState
 import com.funnyrider34rus.ridester.core.util.connectivityState
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.android.gms.common.GoogleApiAvailability
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -71,11 +72,12 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @OptIn(ExperimentalAnimationApi::class)
     @Composable
     private fun CheckUserAuth() {
         val startDestination = if (viewModel.isUserAuthenticated) Screen.DASHBOARDLIST.route else Screen.LOGIN.route
         Navigation(
-            navController = rememberNavController(),
+            navController = rememberAnimatedNavController(),
             startDestination = startDestination
         )
     }

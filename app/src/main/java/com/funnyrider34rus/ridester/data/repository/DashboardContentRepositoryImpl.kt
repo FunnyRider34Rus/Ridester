@@ -8,9 +8,11 @@ import com.funnyrider34rus.ridester.domain.model.DashboardContent
 import com.funnyrider34rus.ridester.domain.repository.DashboardContentRepository
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class DashboardContentRepositoryImpl @Inject constructor(private val referenceLink: CollectionReference) :
@@ -30,14 +32,33 @@ class DashboardContentRepositoryImpl @Inject constructor(private val referenceLi
     }
 
     override suspend fun insert(data: DashboardContent): Response<Boolean> {
-        TODO("Not yet implemented")
+        return try {
+            val key = referenceLink.document().id
+            val mData = data.copy(key = key)
+            referenceLink.document(key).set(mData).await()
+            Response.Success(true)
+        } catch (e: Exception) {
+            Response.Failure(e)
+        }
     }
 
     override suspend fun update(data: DashboardContent): Response<Boolean> {
-        TODO("Not yet implemented")
+        return try {
+            data.key?.let {
+                referenceLink.document(it).set(data, SetOptions.merge()).await()
+            }
+            Response.Success(true)
+        } catch (e: Exception) {
+            Response.Failure(e)
+        }
     }
 
     override suspend fun delete(key: String?): Response<Boolean> {
-        TODO("Not yet implemented")
+        return try {
+            key?.let { referenceLink.document(it).delete().await() }
+            Response.Success(true)
+        } catch (e: Exception) {
+            Response.Failure(e)
+        }
     }
 }

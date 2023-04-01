@@ -72,7 +72,9 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     //navigation
     val nav_version = "2.5.3"
+    val accompanist_nav = "0.30.0"
     implementation("androidx.navigation:navigation-compose:$nav_version")
+    implementation("com.google.accompanist:accompanist-navigation-animation:$accompanist_nav")
     //coroutines
     val coroutines_version = "1.6.4"
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version")
