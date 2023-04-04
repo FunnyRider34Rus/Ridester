@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Ridester</string>
+    <string name="web_client_id">834408961922-0nbb6de41ivegdt9us1rard5pvbqfgf6.apps.googleusercontent.com</string>
     <!-- common -->
     <string name="common_error_gms_title">Ошибка</string>
     <string name="common_error_gms">На устройстве не найдены Google Play Services. Без их наличия дальнейшая работа приложения не возможна</string>

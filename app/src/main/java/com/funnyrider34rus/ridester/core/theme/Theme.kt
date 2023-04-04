@@ -10,10 +10,10 @@ private val LightColorPalette = lightColorScheme(
     secondary = Ditto140,
     background = Golbat0,
     surface = Golbat0,
-    onPrimary = Golbat140,
-    /*onSecondary = Golbat140,
+    onPrimary = Golbat0,
+    onSecondary = Golbat140,
     onBackground = Golbat140,
-    onSurface = Golbat140*/
+    onSurface = Golbat140
 )
 
 @Composable

@@ -33,11 +33,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -72,9 +72,9 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     //navigation
     val nav_version = "2.5.3"
-    val accompanist_nav = "0.30.0"
+    val animated_nav = "0.30.0"
     implementation("androidx.navigation:navigation-compose:$nav_version")
-    implementation("com.google.accompanist:accompanist-navigation-animation:$accompanist_nav")
+    implementation("com.google.accompanist:accompanist-navigation-animation:$animated_nav")
     //coroutines
     val coroutines_version = "1.6.4"
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version")

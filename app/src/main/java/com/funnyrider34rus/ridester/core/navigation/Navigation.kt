@@ -1,12 +1,15 @@
 package com.funnyrider34rus.ridester.core.navigation
 
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import com.google.accompanist.navigation.animation.composable
 import com.funnyrider34rus.ridester.core.components.RidesterBottomNavBar
 import com.funnyrider34rus.ridester.ui.chat.ScreenChat
 import com.funnyrider34rus.ridester.ui.dashboard.ScreenDashboard
@@ -14,7 +17,6 @@ import com.funnyrider34rus.ridester.ui.login.ScreenLogIn
 import com.funnyrider34rus.ridester.ui.profile.ScreenProfile
 import com.funnyrider34rus.ridester.ui.ride.ScreenRide
 import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
@@ -28,26 +30,155 @@ fun Navigation(navController: NavHostController, startDestination: String) {
             startDestination = startDestination,
             route = Screen.NAVGRAPH.route
         ) {
-            composable(route = Screen.LOGIN.route) {
+            composable(route = Screen.LOGIN.route,
+                enterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+
+                popEnterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentScope.SlideDirection.Right,
+                        animationSpec = tween(700)
+                    )
+                },
+                popExitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentScope.SlideDirection.Right,
+                        animationSpec = tween(700)
+                    )
+                }
+            ) {
                 ScreenLogIn(navController = navController)
             }
 
             composable(
-                route = Screen.DASHBOARDLIST.route
+                route = Screen.DASHBOARDLIST.route,
+                enterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+
+                popEnterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentScope.SlideDirection.Right,
+                        animationSpec = tween(700)
+                    )
+                },
+                popExitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentScope.SlideDirection.Right,
+                        animationSpec = tween(700)
+                    )
+                }
             ) {
-                ScreenDashboard(navController = navController, modifier = modifier)
+                ScreenDashboard(navController = navController, modifier = modifier.fillMaxSize())
             }
 
-            composable(route = Screen.CHAT.route) {
-                ScreenChat(modifier = modifier)
+            composable(route = Screen.CHAT.route,
+                enterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+
+                popEnterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentScope.SlideDirection.Right,
+                        animationSpec = tween(700)
+                    )
+                },
+                popExitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentScope.SlideDirection.Right,
+                        animationSpec = tween(700)
+                    )
+                }
+            ) {
+                ScreenChat(modifier = modifier.fillMaxSize())
             }
 
-            composable(route = Screen.RIDE.route) {
-                ScreenRide(modifier = modifier)
+            composable(route = Screen.RIDE.route,
+                enterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+
+                popEnterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentScope.SlideDirection.Right,
+                        animationSpec = tween(700)
+                    )
+                },
+                popExitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentScope.SlideDirection.Right,
+                        animationSpec = tween(700)
+                    )
+                }
+            ) {
+                ScreenRide(modifier = modifier.fillMaxSize())
             }
 
-            composable(route = Screen.PROFILE.route) {
-                ScreenProfile(modifier = modifier)
+            composable(route = Screen.PROFILE.route,
+                enterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+
+                popEnterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentScope.SlideDirection.Right,
+                        animationSpec = tween(700)
+                    )
+                },
+                popExitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentScope.SlideDirection.Right,
+                        animationSpec = tween(700)
+                    )
+                }
+            ) {
+                ScreenProfile(modifier = modifier.fillMaxSize())
             }
         }
     }
