@@ -53,7 +53,7 @@ class DashboardVewModel @Inject constructor(
     fun onEvent(event: DashboardEvent) = viewModelScope.launch {
         when (event) {
             is DashboardEvent.ContentClick -> {
-
+                _viewState.value = _viewState.value.copy(isBodyExpand = !_viewState.value.isBodyExpand)
             }
             is DashboardEvent.LikeClick -> {
                 useCases.likeClick.invoke(event.content)
@@ -62,7 +62,13 @@ class DashboardVewModel @Inject constructor(
 
             }
             is DashboardEvent.CreateClick -> {
-
+                _viewState.value = _viewState.value.copy(isShowAddPostDialog = true)
+            }
+            is DashboardEvent.EnteredTitle -> {
+                _viewState.value = _viewState.value.copy(title = event.title)
+            }
+            is DashboardEvent.EnteredBody -> {
+                _viewState.value = _viewState.value.copy(body = event.body)
             }
         }
     }

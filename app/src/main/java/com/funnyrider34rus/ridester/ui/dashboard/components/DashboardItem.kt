@@ -25,6 +25,7 @@ import com.funnyrider34rus.ridester.core.util.timestampToDate
 import com.funnyrider34rus.ridester.domain.model.DashboardContent
 import com.funnyrider34rus.ridester.ui.dashboard.DashboardEvent
 import com.funnyrider34rus.ridester.ui.dashboard.DashboardVewModel
+import com.funnyrider34rus.ridester.ui.dashboard.DashboardViewState
 import com.funnyrider34rus.ridester.ui.dashboard.LikesStatus
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
@@ -59,10 +60,10 @@ fun DashboardItem(
 }
 
 @Composable
-fun ContentBody(modifier: Modifier, content: DashboardContent) {
+fun ContentBody(modifier: Modifier, content: DashboardContent, viewModel: DashboardVewModel = hiltViewModel()) {
 
+    val viewState by viewModel.viewState.collectAsState(DashboardViewState())
     val painter = rememberAsyncImagePainter(content.image)
-    var isExpanded by remember { mutableStateOf(false) }
     var isEllipsis by remember { mutableStateOf(false) }
     val scroll = rememberScrollState(0)
 
@@ -91,16 +92,16 @@ fun ContentBody(modifier: Modifier, content: DashboardContent) {
                 .align(Alignment.BottomCenter)
                 .padding(horizontal = 16.dp, vertical = 32.dp)
                 .clickable {
-                   if (isEllipsis) isExpanded = !isExpanded
+                    if (isEllipsis) viewModel.onEvent(DashboardEvent.ContentClick)
                 }
                 .verticalScroll(scroll),
             color = MaterialTheme.colorScheme.background,
-            overflow = if (isExpanded) TextOverflow.Visible else TextOverflow.Ellipsis,
-            maxLines = if (isExpanded) Int.MAX_VALUE else 3,
+            overflow = if (viewState.isBodyExpand) TextOverflow.Visible else TextOverflow.Ellipsis,
+            maxLines = if (viewState.isBodyExpand) Int.MAX_VALUE else 3,
             onTextLayout = { textLayoutResult ->
                 if (textLayoutResult.hasVisualOverflow) isEllipsis = true
             },
-            style = if (isExpanded) MaterialTheme.typography.headlineSmall else MaterialTheme.typography.bodyLarge
+            style = if (viewState.isBodyExpand) MaterialTheme.typography.headlineSmall else MaterialTheme.typography.bodyLarge
         )
         Text(
             text = timestampToDate(content.timestamp),

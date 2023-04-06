@@ -2,6 +2,7 @@ package com.funnyrider34rus.ridester.ui.dashboard
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -20,6 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.funnyrider34rus.ridester.R
 import com.funnyrider34rus.ridester.core.components.RidesterLoadingWidget
 import com.funnyrider34rus.ridester.core.components.RidesterTopAppBar
+import com.funnyrider34rus.ridester.ui.dashboard.components.DashboardAddPostDialog
 import com.funnyrider34rus.ridester.ui.dashboard.components.DashboardItem
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -33,40 +35,44 @@ fun ScreenDashboard(
     val viewState by viewModel.viewState.collectAsState(DashboardViewState())
     val lazyListState = rememberLazyListState()
 
-    if (viewState.isLoading) RidesterLoadingWidget(modifier = Modifier.fillMaxSize())
+    Box(modifier = modifier) {
+        Column(modifier = Modifier) {
+            RidesterTopAppBar(
+                title = stringResource(R.string.bottomnavbar_lable_dashboard),
+                modifier = Modifier,
+                navigationIcon = { },
+                actions = {
+                    IconButton(
+                        onClick = { viewModel.onEvent(DashboardEvent.CreateClick) }
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_write_outline),
+                            contentDescription = null,
+                            modifier = Modifier.size(32.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+            )
 
-    Column(modifier = modifier) {
-        RidesterTopAppBar(
-            title = stringResource(R.string.bottomnavbar_lable_dashboard),
-            modifier = Modifier,
-            navigationIcon = { },
-            actions = {
-                IconButton(
-                    onClick = { /*TODO*/ }
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_write_outline),
-                        contentDescription = null,
-                        modifier = Modifier.size(32.dp),
-                        tint = MaterialTheme.colorScheme.primary
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                state = lazyListState,
+                flingBehavior = rememberSnapFlingBehavior(lazyListState = lazyListState)
+            ) {
+                items(viewState.content) { item ->
+                    DashboardItem(
+                        modifier = Modifier.fillParentMaxHeight(),
+                        content = item,
+                        navigateToComment = navigateToComment
                     )
                 }
             }
-        )
 
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            state = lazyListState,
-            flingBehavior = rememberSnapFlingBehavior(lazyListState = lazyListState)
-        ) {
-            items(viewState.content) { item ->
-                DashboardItem(
-                    modifier = Modifier.fillParentMaxHeight(),
-                    content = item,
-                    navigateToComment = navigateToComment
-                )
-            }
         }
+
+        if (viewState.isShowAddPostDialog) DashboardAddPostDialog(modifier = Modifier)
+        if (viewState.isLoading) RidesterLoadingWidget(modifier = Modifier.fillMaxSize())
 
     }
 }
