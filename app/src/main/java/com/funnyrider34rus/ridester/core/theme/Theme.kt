@@ -13,7 +13,8 @@ private val LightColorPalette = lightColorScheme(
     onPrimary = Golbat0,
     onSecondary = Golbat140,
     onBackground = Golbat140,
-    onSurface = Golbat140
+    onSurface = Golbat140,
+    error = Krabby140
 )
 
 @Composable

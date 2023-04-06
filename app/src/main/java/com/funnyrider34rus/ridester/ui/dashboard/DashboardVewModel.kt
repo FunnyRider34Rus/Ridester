@@ -3,6 +3,7 @@ package com.funnyrider34rus.ridester.ui.dashboard
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.funnyrider34rus.ridester.core.util.Response
+import com.funnyrider34rus.ridester.domain.model.CurrentUser
 import com.funnyrider34rus.ridester.domain.use_case.dashboard.DashboardUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +12,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DashboardVewModel @Inject constructor(private val useCases: DashboardUseCases) : ViewModel() {
+class DashboardVewModel @Inject constructor(
+    private val useCases: DashboardUseCases,
+    private val currentUser: CurrentUser
+) : ViewModel() {
     private val _viewState = MutableStateFlow(DashboardViewState())
     val viewState: StateFlow<DashboardViewState> = _viewState
 
@@ -21,7 +25,7 @@ class DashboardVewModel @Inject constructor(private val useCases: DashboardUseCa
 
     private fun getDashboardContent() = viewModelScope.launch {
         useCases.getDashboardContent.invoke().collect { result ->
-            when(result) {
+            when (result) {
                 is Response.Loading -> {
                     _viewState.value = _viewState.value.copy(isLoading = true)
                 }
@@ -31,19 +35,28 @@ class DashboardVewModel @Inject constructor(private val useCases: DashboardUseCa
                 }
                 is Response.Failure -> {
                     _viewState.value = _viewState.value.copy(isError = true)
-                    _viewState.value = _viewState.value.copy(error = result.e?.localizedMessage ?: "Unexpected Error")
+                    _viewState.value = _viewState.value.copy(
+                        error = result.e?.localizedMessage ?: "Unexpected Error"
+                    )
                 }
             }
         }
     }
 
-    fun onEvent(event: DashboardEvent) {
+    fun getLikeStatus(list: List<String>?): LikesStatus {
+        var result: LikesStatus
+        result = if (list.isNullOrEmpty()) LikesStatus.NONE else LikesStatus.UNLIKE
+        if (list?.contains(currentUser.uid) == true) result = LikesStatus.LIKE
+        return result
+    }
+
+    fun onEvent(event: DashboardEvent) = viewModelScope.launch {
         when (event) {
             is DashboardEvent.ContentClick -> {
 
             }
             is DashboardEvent.LikeClick -> {
-
+                useCases.likeClick.invoke(event.content)
             }
             is DashboardEvent.CommentClick -> {
 

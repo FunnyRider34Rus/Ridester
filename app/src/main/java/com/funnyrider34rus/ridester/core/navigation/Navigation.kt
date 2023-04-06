@@ -88,7 +88,10 @@ fun Navigation(navController: NavHostController, startDestination: String) {
                     )
                 }
             ) {
-                ScreenDashboard(navController = navController, modifier = modifier.fillMaxSize())
+                ScreenDashboard(
+                    modifier = modifier.fillMaxSize(),
+                    navigateToComment = { }
+                )
             }
 
             composable(route = Screen.CHAT.route,

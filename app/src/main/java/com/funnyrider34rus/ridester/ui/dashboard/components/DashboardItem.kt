@@ -14,11 +14,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.funnyrider34rus.ridester.R
 import com.funnyrider34rus.ridester.core.components.RidesterCenterTopAppBar
 import com.funnyrider34rus.ridester.core.util.timestampToDate
 import com.funnyrider34rus.ridester.domain.model.DashboardContent
+import com.funnyrider34rus.ridester.ui.dashboard.DashboardEvent
+import com.funnyrider34rus.ridester.ui.dashboard.DashboardVewModel
+import com.funnyrider34rus.ridester.ui.dashboard.LikesStatus
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
@@ -27,7 +31,8 @@ import com.skydoves.landscapist.transformation.blur.BlurTransformationPlugin
 @Composable
 fun DashboardItem(
     modifier: Modifier,
-    content: DashboardContent
+    content: DashboardContent,
+    navigateToComment: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -40,11 +45,12 @@ fun DashboardItem(
         ContentBody(
             modifier = Modifier.weight(1f),
             content = content
-            )
+        )
 
         Footer(
             modifier = Modifier.wrapContentHeight(Alignment.CenterVertically),
-            content = content
+            content = content,
+            navigateToComment = navigateToComment
         )
     }
 }
@@ -95,19 +101,27 @@ fun ContentBody(modifier: Modifier, content: DashboardContent) {
 @Composable
 fun Footer(
     modifier: Modifier,
-    content: DashboardContent
+    content: DashboardContent,
+    navigateToComment: () -> Unit,
+    viewModel: DashboardVewModel = hiltViewModel()
 ) {
     Row(
         modifier = modifier.padding(start = 16.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(
-            onClick = { /*TODO*/ },
+            onClick = { viewModel.onEvent(DashboardEvent.LikeClick(content)) },
         ) {
             Icon(
-                painter = painterResource(R.drawable.ic_like_outline),
+                painter = when (viewModel.getLikeStatus(content.likes)) {
+                    LikesStatus.NONE -> painterResource(R.drawable.ic_like_outline)
+                    else -> painterResource(R.drawable.ic_like)
+                },
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
+                tint = when (viewModel.getLikeStatus(content.likes)) {
+                    LikesStatus.LIKE -> MaterialTheme.colorScheme.error
+                    else -> MaterialTheme.colorScheme.primary
+                }
             )
         }
         Text(
@@ -116,7 +130,7 @@ fun Footer(
             style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp)
         )
         IconButton(
-            onClick = { /*TODO*/ },
+            onClick = navigateToComment,
             modifier = Modifier.padding(start = 16.dp)
         ) {
             Icon(
@@ -149,5 +163,7 @@ fun DashboardPreview() {
     DashboardItem(
         modifier = Modifier,
         content = DashboardContent()
-    )
+    ) {
+
+    }
 }

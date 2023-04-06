@@ -19,7 +19,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.funnyrider34rus.ridester.R
 import com.funnyrider34rus.ridester.core.components.RidesterLoadingWidget
 import com.funnyrider34rus.ridester.core.components.RidesterTopAppBar
@@ -28,7 +27,7 @@ import com.funnyrider34rus.ridester.ui.dashboard.components.DashboardItem
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ScreenDashboard(
-    navController: NavController,
+    navigateToComment: () -> Unit,
     modifier: Modifier,
     viewModel: DashboardVewModel = hiltViewModel()
 ) {
@@ -65,7 +64,8 @@ fun ScreenDashboard(
             items(viewState.content) { item ->
                 DashboardItem(
                     modifier = Modifier.fillParentMaxHeight(),
-                    content = item
+                    content = item,
+                    navigateToComment = navigateToComment
                 )
             }
         }
