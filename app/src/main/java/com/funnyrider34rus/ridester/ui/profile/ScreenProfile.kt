@@ -11,7 +11,7 @@ import com.funnyrider34rus.ridester.core.components.RidesterTopAppBar
 fun ScreenProfile(modifier: Modifier) {
     Column(modifier = modifier) {
         RidesterTopAppBar(
-            title = stringResource(R.string.bottomnavbar_lable_profile),
+            title = R.string.bottomnavbar_lable_profile,
             modifier = Modifier,
             navigationIcon = { },
             actions = { }

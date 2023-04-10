@@ -15,20 +15,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.funnyrider34rus.ridester.R
 import com.funnyrider34rus.ridester.core.components.RidesterLoadingWidget
 import com.funnyrider34rus.ridester.core.components.RidesterTopAppBar
-import com.funnyrider34rus.ridester.ui.dashboard.components.DashboardAddPostDialog
 import com.funnyrider34rus.ridester.ui.dashboard.components.DashboardItem
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ScreenDashboard(
-    navigateToComment: () -> Unit,
     modifier: Modifier,
+    navigateToComment: () -> Unit,
+    navigateToAddPost: () -> Unit,
     viewModel: DashboardVewModel = hiltViewModel()
 ) {
 
@@ -38,12 +37,12 @@ fun ScreenDashboard(
     Box(modifier = modifier) {
         Column(modifier = Modifier) {
             RidesterTopAppBar(
-                title = stringResource(R.string.bottomnavbar_lable_dashboard),
+                title = R.string.bottomnavbar_lable_dashboard,
                 modifier = Modifier,
                 navigationIcon = { },
                 actions = {
                     IconButton(
-                        onClick = { viewModel.onEvent(DashboardEvent.CreateClick) }
+                        onClick = navigateToAddPost
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.ic_write_outline),
@@ -71,7 +70,6 @@ fun ScreenDashboard(
 
         }
 
-        if (viewState.isShowAddPostDialog) DashboardAddPostDialog(modifier = Modifier)
         if (viewState.isLoading) RidesterLoadingWidget(modifier = Modifier.fillMaxSize())
 
     }

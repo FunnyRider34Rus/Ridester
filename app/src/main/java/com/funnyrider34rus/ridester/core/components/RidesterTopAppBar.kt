@@ -1,5 +1,6 @@
 package com.funnyrider34rus.ridester.core.components
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -18,16 +19,16 @@ import com.funnyrider34rus.ridester.R
 @Composable
 fun RidesterTopAppBar(
     modifier: Modifier,
-    title: String,
+    @StringRes title: Int,
     navigationIcon: @Composable () -> Unit,
     actions: @Composable (RowScope.() -> Unit)
 ) {
     TopAppBar(
         title = {
             Text(
-                text = title,
+                text = stringResource(id = title),
                 modifier = Modifier.padding(start = 4.dp),
-                color = MaterialTheme.colorScheme.onSecondary,
+                color = MaterialTheme.colorScheme.primary,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 style = MaterialTheme.typography.titleLarge
@@ -43,27 +44,27 @@ fun RidesterTopAppBar(
 @Composable
 fun TopAppBarPreview() {
     RidesterTopAppBar(
-        title = stringResource(id = android.R.string.untitled),
         modifier = Modifier,
-        navigationIcon = { IconButton(
-            onClick = { /*TODO*/ }
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_write_outline),
-                contentDescription = null,
-                modifier = Modifier.size(32.dp),
-                tint = MaterialTheme.colorScheme.primary
-            )
-        } },
-        actions = { IconButton(
-            onClick = { /*TODO*/ }
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_write_outline),
-                contentDescription = null,
-                modifier = Modifier.size(32.dp),
-                tint = MaterialTheme.colorScheme.primary
-            )
-        } }
+        title = android.R.string.untitled,
+        navigationIcon = {
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_write_outline),
+                    contentDescription = null,
+                    modifier = Modifier.size(32.dp),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+        },
+        actions = {
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_write_outline),
+                    contentDescription = null,
+                    modifier = Modifier.size(32.dp),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+        }
     )
 }

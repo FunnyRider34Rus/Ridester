@@ -11,8 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.composable
 import com.funnyrider34rus.ridester.core.components.RidesterBottomNavBar
+import com.funnyrider34rus.ridester.core.util.ANIMATENAVTIME
 import com.funnyrider34rus.ridester.ui.chat.ScreenChat
 import com.funnyrider34rus.ridester.ui.dashboard.ScreenDashboard
+import com.funnyrider34rus.ridester.ui.dashboard.add_post.ScreenDashboardAddPostDialog
 import com.funnyrider34rus.ridester.ui.login.ScreenLogIn
 import com.funnyrider34rus.ridester.ui.profile.ScreenProfile
 import com.funnyrider34rus.ridester.ui.ride.ScreenRide
@@ -22,7 +24,9 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 @Composable
 fun Navigation(navController: NavHostController, startDestination: String) {
     Scaffold(
-        bottomBar = { RidesterBottomNavBar(navController = navController) }
+        bottomBar = {
+            RidesterBottomNavBar(navController = navController)
+        }
     ) { innerPadding ->
         val modifier = Modifier.padding(innerPadding)
         AnimatedNavHost(
@@ -34,30 +38,34 @@ fun Navigation(navController: NavHostController, startDestination: String) {
                 enterTransition = {
                     slideIntoContainer(
                         AnimatedContentScope.SlideDirection.Left,
-                        animationSpec = tween(700)
+                        animationSpec = tween(ANIMATENAVTIME)
                     )
                 },
                 exitTransition = {
                     slideOutOfContainer(
                         AnimatedContentScope.SlideDirection.Left,
-                        animationSpec = tween(700)
+                        animationSpec = tween(ANIMATENAVTIME)
                     )
                 },
 
                 popEnterTransition = {
                     slideIntoContainer(
                         AnimatedContentScope.SlideDirection.Right,
-                        animationSpec = tween(700)
+                        animationSpec = tween(ANIMATENAVTIME)
                     )
                 },
                 popExitTransition = {
                     slideOutOfContainer(
                         AnimatedContentScope.SlideDirection.Right,
-                        animationSpec = tween(700)
+                        animationSpec = tween(ANIMATENAVTIME)
                     )
                 }
             ) {
-                ScreenLogIn(navController = navController)
+                ScreenLogIn(
+                    navigateToMain = {
+                        navController.navigate(Screen.DASHBOARDLIST.route)
+                    }
+                )
             }
 
             composable(
@@ -65,59 +73,94 @@ fun Navigation(navController: NavHostController, startDestination: String) {
                 enterTransition = {
                     slideIntoContainer(
                         AnimatedContentScope.SlideDirection.Left,
-                        animationSpec = tween(700)
+                        animationSpec = tween(ANIMATENAVTIME)
                     )
                 },
                 exitTransition = {
                     slideOutOfContainer(
                         AnimatedContentScope.SlideDirection.Left,
-                        animationSpec = tween(700)
+                        animationSpec = tween(ANIMATENAVTIME)
                     )
                 },
 
                 popEnterTransition = {
                     slideIntoContainer(
                         AnimatedContentScope.SlideDirection.Right,
-                        animationSpec = tween(700)
+                        animationSpec = tween(ANIMATENAVTIME)
                     )
                 },
                 popExitTransition = {
                     slideOutOfContainer(
                         AnimatedContentScope.SlideDirection.Right,
-                        animationSpec = tween(700)
+                        animationSpec = tween(ANIMATENAVTIME)
                     )
                 }
             ) {
                 ScreenDashboard(
                     modifier = modifier.fillMaxSize(),
-                    navigateToComment = { }
+                    navigateToComment = { },
+                    navigateToAddPost = { navController.navigate(Screen.DASHBOARDADDPOST.route) }
                 )
+            }
+
+            composable(route = Screen.DASHBOARDADDPOST.route,
+                enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentScope.SlideDirection.Left,
+                    animationSpec = tween(ANIMATENAVTIME)
+                )
+            },
+                exitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentScope.SlideDirection.Left,
+                        animationSpec = tween(ANIMATENAVTIME)
+                    )
+                },
+
+                popEnterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentScope.SlideDirection.Right,
+                        animationSpec = tween(ANIMATENAVTIME)
+                    )
+                },
+                popExitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentScope.SlideDirection.Right,
+                        animationSpec = tween(ANIMATENAVTIME)
+                    )
+                }
+            ) {
+                ScreenDashboardAddPostDialog(navigateToBack = {
+                    navController.navigate(Screen.DASHBOARDLIST.route) {
+                        popUpTo(Screen.DASHBOARDLIST.route)
+                    }
+                })
             }
 
             composable(route = Screen.CHAT.route,
                 enterTransition = {
                     slideIntoContainer(
                         AnimatedContentScope.SlideDirection.Left,
-                        animationSpec = tween(700)
+                        animationSpec = tween(ANIMATENAVTIME)
                     )
                 },
                 exitTransition = {
                     slideOutOfContainer(
                         AnimatedContentScope.SlideDirection.Left,
-                        animationSpec = tween(700)
+                        animationSpec = tween(ANIMATENAVTIME)
                     )
                 },
 
                 popEnterTransition = {
                     slideIntoContainer(
                         AnimatedContentScope.SlideDirection.Right,
-                        animationSpec = tween(700)
+                        animationSpec = tween(ANIMATENAVTIME)
                     )
                 },
                 popExitTransition = {
                     slideOutOfContainer(
                         AnimatedContentScope.SlideDirection.Right,
-                        animationSpec = tween(700)
+                        animationSpec = tween(ANIMATENAVTIME)
                     )
                 }
             ) {
@@ -128,26 +171,26 @@ fun Navigation(navController: NavHostController, startDestination: String) {
                 enterTransition = {
                     slideIntoContainer(
                         AnimatedContentScope.SlideDirection.Left,
-                        animationSpec = tween(700)
+                        animationSpec = tween(ANIMATENAVTIME)
                     )
                 },
                 exitTransition = {
                     slideOutOfContainer(
                         AnimatedContentScope.SlideDirection.Left,
-                        animationSpec = tween(700)
+                        animationSpec = tween(ANIMATENAVTIME)
                     )
                 },
 
                 popEnterTransition = {
                     slideIntoContainer(
                         AnimatedContentScope.SlideDirection.Right,
-                        animationSpec = tween(700)
+                        animationSpec = tween(ANIMATENAVTIME)
                     )
                 },
                 popExitTransition = {
                     slideOutOfContainer(
                         AnimatedContentScope.SlideDirection.Right,
-                        animationSpec = tween(700)
+                        animationSpec = tween(ANIMATENAVTIME)
                     )
                 }
             ) {
@@ -158,26 +201,26 @@ fun Navigation(navController: NavHostController, startDestination: String) {
                 enterTransition = {
                     slideIntoContainer(
                         AnimatedContentScope.SlideDirection.Left,
-                        animationSpec = tween(700)
+                        animationSpec = tween(ANIMATENAVTIME)
                     )
                 },
                 exitTransition = {
                     slideOutOfContainer(
                         AnimatedContentScope.SlideDirection.Left,
-                        animationSpec = tween(700)
+                        animationSpec = tween(ANIMATENAVTIME)
                     )
                 },
 
                 popEnterTransition = {
                     slideIntoContainer(
                         AnimatedContentScope.SlideDirection.Right,
-                        animationSpec = tween(700)
+                        animationSpec = tween(ANIMATENAVTIME)
                     )
                 },
                 popExitTransition = {
                     slideOutOfContainer(
                         AnimatedContentScope.SlideDirection.Right,
-                        animationSpec = tween(700)
+                        animationSpec = tween(ANIMATENAVTIME)
                     )
                 }
             ) {
@@ -192,6 +235,7 @@ sealed class Screen(val route: String) {
     object LOGIN : Screen(route = "login_screen")
     object DASHBOARDLIST : Screen(route = "dashboard_list")
     object DASHBOARDCOMMENT : Screen(route = "dashboard_comment")
+    object DASHBOARDADDPOST : Screen(route = "dashboard_add_post")
     object CHAT : Screen(route = "chat")
     object RIDE : Screen(route = "ride")
     object PROFILE : Screen(route = "profile")

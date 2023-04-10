@@ -11,7 +11,7 @@ import com.funnyrider34rus.ridester.core.components.RidesterTopAppBar
 fun ScreenChat(modifier: Modifier) {
     Column(modifier = modifier) {
         RidesterTopAppBar(
-            title = stringResource(R.string.bottomnavbar_lable_chat),
+            title = R.string.bottomnavbar_lable_chat,
             modifier = Modifier,
             navigationIcon = { },
             actions = { }

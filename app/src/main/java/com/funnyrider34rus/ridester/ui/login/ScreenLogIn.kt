@@ -3,7 +3,6 @@ package com.funnyrider34rus.ridester.ui.login
 import android.app.Activity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.clipScrollableContainer
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
@@ -23,13 +22,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.funnyrider34rus.ridester.R
 import com.funnyrider34rus.ridester.core.components.RidesterCenterTopAppBar
 import com.funnyrider34rus.ridester.core.components.RidesterErrorWidget
 import com.funnyrider34rus.ridester.core.components.RidesterLoadingWidget
-import com.funnyrider34rus.ridester.core.navigation.Screen
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -38,7 +34,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScreenLogIn(
-    navController: NavController,
+    navigateToMain: @Composable () -> Unit,
     viewModel: LogInViewModel = hiltViewModel()
 ) {
 
@@ -60,13 +56,13 @@ fun ScreenLogIn(
         }
     }
 
-    if (viewState.value.isUserAuth) navController.navigate(Screen.DASHBOARDLIST.route)
+    if (viewState.value.isUserAuth) navigateToMain
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             RidesterCenterTopAppBar(
-                title = stringResource(R.string.screen_login_title),
+                title = stringResource(id = R.string.screen_login_title),
                 modifier = Modifier
             )
         }
@@ -148,9 +144,8 @@ fun ScreenLogIn(
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Preview
 @Composable
 fun LoginInPreview() {
-    ScreenLogIn(rememberAnimatedNavController())
+    ScreenLogIn({  })
 }

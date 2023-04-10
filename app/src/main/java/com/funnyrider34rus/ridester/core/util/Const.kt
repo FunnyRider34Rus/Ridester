@@ -2,6 +2,8 @@ package com.funnyrider34rus.ridester.core.util
 
 const val TAG = "Ridester"
 
+const val ANIMATENAVTIME: Int = 300
+
 //Collection References
 const val FIRESTORE_NODE_USERS = "users"
 const val FIRESTORE_NODE_DASHBOARD = "dashboard"

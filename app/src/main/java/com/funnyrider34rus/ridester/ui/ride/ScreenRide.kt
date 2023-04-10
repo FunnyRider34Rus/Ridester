@@ -11,7 +11,7 @@ import com.funnyrider34rus.ridester.core.components.RidesterTopAppBar
 fun ScreenRide(modifier: Modifier) {
     Column(modifier = modifier) {
         RidesterTopAppBar(
-            title = stringResource(R.string.bottomnavbar_lable_ride),
+            title = R.string.bottomnavbar_lable_ride,
             modifier = Modifier,
             navigationIcon = { },
             actions = { }

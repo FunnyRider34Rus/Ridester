@@ -12,7 +12,7 @@ private val LightColorPalette = lightColorScheme(
     surface = Golbat0,
     onPrimary = Golbat0,
     onSecondary = Golbat140,
-    onBackground = Golbat140,
+    onBackground = Golbat5,
     onSurface = Golbat140,
     error = Krabby140
 )

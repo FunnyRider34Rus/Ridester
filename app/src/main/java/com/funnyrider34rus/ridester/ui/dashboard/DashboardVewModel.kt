@@ -58,18 +58,6 @@ class DashboardVewModel @Inject constructor(
             is DashboardEvent.LikeClick -> {
                 useCases.likeClick.invoke(event.content)
             }
-            is DashboardEvent.CommentClick -> {
-
-            }
-            is DashboardEvent.CreateClick -> {
-                _viewState.value = _viewState.value.copy(isShowAddPostDialog = true)
-            }
-            is DashboardEvent.EnteredTitle -> {
-                _viewState.value = _viewState.value.copy(title = event.title)
-            }
-            is DashboardEvent.EnteredBody -> {
-                _viewState.value = _viewState.value.copy(body = event.body)
-            }
         }
     }
 }
