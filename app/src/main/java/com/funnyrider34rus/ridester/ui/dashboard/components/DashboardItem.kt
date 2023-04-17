@@ -122,11 +122,13 @@ fun Footer(
     viewModel: DashboardVewModel = hiltViewModel()
 ) {
     Row(
-        modifier = modifier.padding(start = 16.dp, end = 16.dp),
+        modifier = modifier
+            .height(64.dp)
+            .padding(start = 16.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(
-            onClick = { viewModel.onEvent(DashboardEvent.LikeClick(content)) },
+            onClick = { viewModel.onEvent(DashboardEvent.LikeClick(content)) }
         ) {
             Icon(
                 painter = when (viewModel.getLikeStatus(content.likes)) {
@@ -134,6 +136,7 @@ fun Footer(
                     else -> painterResource(R.drawable.ic_like)
                 },
                 contentDescription = null,
+                modifier = Modifier.size(32.dp),
                 tint = when (viewModel.getLikeStatus(content.likes)) {
                     LikesStatus.LIKE -> MaterialTheme.colorScheme.error
                     else -> MaterialTheme.colorScheme.primary
@@ -152,6 +155,7 @@ fun Footer(
             Icon(
                 painter = painterResource(R.drawable.ic_comment_outline),
                 contentDescription = null,
+                modifier = Modifier.size(32.dp),
                 tint = MaterialTheme.colorScheme.primary
             )
         }
@@ -167,6 +171,7 @@ fun Footer(
             Icon(
                 imageVector = Icons.Default.Share,
                 contentDescription = null,
+                modifier = Modifier.size(32.dp),
                 tint = MaterialTheme.colorScheme.primary
             )
         }

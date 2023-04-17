@@ -40,7 +40,7 @@ fun RidesterBottomNavBar(navController: NavController) {
     if (bottomBarDestination) {
         BottomNavigation(
             modifier = Modifier.height(64.dp),
-            backgroundColor = Color.White
+            backgroundColor = Color.White,
         ) {
             bottomNavBarScreens.forEach { screen ->
                 AddItem(
@@ -59,6 +59,9 @@ fun RowScope.AddItem(
     currentDestination: NavDestination?,
     navController: NavController
 ) {
+    val selected = currentDestination?.hierarchy?.any {
+        it.route == screen.route
+    } == true
     BottomNavigationItem(
         label = {
             Text(
@@ -75,13 +78,12 @@ fun RowScope.AddItem(
                 tint = MaterialTheme.colorScheme.primary
             )
         },
-        selected = currentDestination?.hierarchy?.any {
-            it.route == screen.route
-        } == true,
+        selected = selected,
         alwaysShowLabel = false,
         onClick = {
             navController.navigate(screen.route) {
                 popUpTo(navController.graph.findStartDestination().id)
+                launchSingleTop = true
             }
         }
     )
@@ -107,7 +109,7 @@ sealed class RidesterBottomNavBarItem(
     object Ride : RidesterBottomNavBarItem(
         route = Screen.RIDE.route,
         lable = R.string.bottomnavbar_lable_ride,
-        icon = R.drawable.ic_motorcycle_outline
+        icon = R.drawable.ic_location_map_outline
     )
 
     object Profile : RidesterBottomNavBarItem(

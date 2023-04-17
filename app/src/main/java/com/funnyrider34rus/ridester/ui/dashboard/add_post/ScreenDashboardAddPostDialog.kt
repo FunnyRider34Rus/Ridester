@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.funnyrider34rus.ridester.R
 import com.funnyrider34rus.ridester.core.components.RidesterCenterTopAppBar
-import com.funnyrider34rus.ridester.core.components.RidesterBasicTextField
 import com.funnyrider34rus.ridester.core.components.RidesterOutlinedTextField
 
 @Composable

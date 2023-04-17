@@ -28,7 +28,7 @@ fun RidesterTopAppBar(
             Text(
                 text = stringResource(id = title),
                 modifier = Modifier.padding(start = 4.dp),
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onSecondary,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 style = MaterialTheme.typography.titleLarge
