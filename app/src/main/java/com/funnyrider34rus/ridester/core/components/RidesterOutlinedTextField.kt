@@ -12,7 +12,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,7 +46,7 @@ fun RidesterOutlinedTextField(
         }),
         singleLine = singleLine,
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            unfocusedLabelColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+            unfocusedLabelColor = MaterialTheme.colorScheme.onSecondary.copy(alpha = 0.5f),
             unfocusedBorderColor = MaterialTheme.colorScheme.primary
         )
     )

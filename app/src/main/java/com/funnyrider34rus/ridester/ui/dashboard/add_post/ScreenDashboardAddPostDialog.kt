@@ -51,27 +51,15 @@ fun ScreenDashboardAddPostDialog(
                 tint = MaterialTheme.colorScheme.primary
             )
             RidesterOutlinedTextField(
-                value = viewState.title,
-                onValueChange = { viewModel.onEvent(DashboardAddPostDialogEvent.EnteredTitle(it)) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 88.dp),
-                label = R.string.screen_dashboard_add_post_textfield_title,
-                focusManager = focusManager,
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next,
-                singleLine = true
-            )
-            RidesterOutlinedTextField(
                 value = viewState.body,
                 onValueChange = { viewModel.onEvent(DashboardAddPostDialogEvent.EnteredBody(it)) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 48.dp),
+                    .padding(top = 88.dp),
                 label = R.string.screen_dashboard_add_post_textfield_body,
                 focusManager = focusManager,
                 keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Done,
+                imeAction = ImeAction.Default,
                 singleLine = false
             )
         }

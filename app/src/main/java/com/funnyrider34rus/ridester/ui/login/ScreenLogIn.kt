@@ -34,7 +34,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScreenLogIn(
-    navigateToMain: @Composable () -> Unit,
+    navigateToMain: () -> Unit,
     viewModel: LogInViewModel = hiltViewModel()
 ) {
 
@@ -56,7 +56,9 @@ fun ScreenLogIn(
         }
     }
 
-    if (viewState.value.isUserAuth) navigateToMain
+    if (viewState.value.isUserAuth) {
+        navigateToMain.invoke()
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -96,6 +98,7 @@ fun ScreenLogIn(
                 modifier = Modifier
                     .verticalScroll(textScrollState)
                     .clipScrollableContainer(Orientation.Vertical),
+                color = MaterialTheme.colorScheme.onSecondary,
                 textAlign = TextAlign.Justify,
                 style = MaterialTheme.typography.bodyLarge
             )
@@ -110,6 +113,7 @@ fun ScreenLogIn(
                 )
                 Text(
                     text = stringResource(id = R.string.screen_login_checkbox),
+                    color = MaterialTheme.colorScheme.onSecondary,
                     style = MaterialTheme.typography.bodyMedium
                 )
             }

@@ -3,6 +3,7 @@ package com.funnyrider34rus.ridester.ui.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.funnyrider34rus.ridester.core.util.Response
+import com.funnyrider34rus.ridester.domain.model.UserOnlineStatus
 import com.funnyrider34rus.ridester.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +26,7 @@ class LogInViewModel @Inject constructor(private val repository: AuthRepository)
                     when(response) {
                         is Response.Success -> {
                             _viewState.value = _viewState.value.copy(isLoading = false, isUserAuth = true)
+                            repository.writeUserToDB(UserOnlineStatus.ONLINE)
                         }
                         is Response.Failure -> {
                             _viewState.value = _viewState.value.copy(isError = true, error = response.e?.localizedMessage ?: "Unexpected error")

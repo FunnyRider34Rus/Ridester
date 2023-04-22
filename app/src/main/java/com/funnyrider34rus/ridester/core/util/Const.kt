@@ -7,6 +7,7 @@ const val ANIMATENAVTIME: Int = 300
 //Collection References
 const val FIRESTORE_NODE_USERS = "users"
 const val FIRESTORE_NODE_DASHBOARD = "dashboard"
+const val FIREBASE_STORAGE_MEDIA = "media"
 
 //Dashboard fields
 const val FIELD_DASHBOARD_KEY = "key"

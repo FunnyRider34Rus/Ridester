@@ -23,6 +23,7 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun Navigation(navController: NavHostController, startDestination: String) {
+
     Scaffold(
         bottomBar = {
             RidesterBottomNavBar(navController = navController)
@@ -62,9 +63,8 @@ fun Navigation(navController: NavHostController, startDestination: String) {
                 }
             ) {
                 ScreenLogIn(
-                    navigateToMain = {
-                        navController.navigate(Screen.DASHBOARDLIST.route)
-                    }
+                    navigateToMain = { navController.navigate(Screen.DASHBOARDLIST.route) }
+
                 )
             }
 

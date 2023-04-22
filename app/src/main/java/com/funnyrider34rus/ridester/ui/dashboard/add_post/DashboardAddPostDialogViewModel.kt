@@ -13,13 +13,12 @@ class DashboardAddPostDialogViewModel @Inject constructor() : ViewModel() {
 
     fun onEvent(event:DashboardAddPostDialogEvent) {
         when(event) {
-            is DashboardAddPostDialogEvent.EnteredTitle -> {
-                _viewState.value = _viewState.value.copy(title = event.title)
-            }
             is DashboardAddPostDialogEvent.EnteredBody -> {
                 _viewState.value = _viewState.value.copy(body = event.body)
             }
-            is DashboardAddPostDialogEvent.SelectedImage -> {  }
+            is DashboardAddPostDialogEvent.SelectedImage -> {
+
+            }
         }
     }
 }

@@ -28,7 +28,7 @@ fun ScreenDashboard(
     modifier: Modifier,
     navigateToComment: () -> Unit,
     navigateToAddPost: () -> Unit,
-    viewModel: DashboardVewModel = hiltViewModel()
+    viewModel: DashboardViewModel = hiltViewModel()
 ) {
 
     val viewState by viewModel.viewState.collectAsState(DashboardViewState())

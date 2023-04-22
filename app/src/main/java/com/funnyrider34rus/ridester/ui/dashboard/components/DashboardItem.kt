@@ -24,7 +24,7 @@ import com.funnyrider34rus.ridester.core.components.RidesterCenterTopAppBar
 import com.funnyrider34rus.ridester.core.util.timestampToDate
 import com.funnyrider34rus.ridester.domain.model.DashboardContent
 import com.funnyrider34rus.ridester.ui.dashboard.DashboardEvent
-import com.funnyrider34rus.ridester.ui.dashboard.DashboardVewModel
+import com.funnyrider34rus.ridester.ui.dashboard.DashboardViewModel
 import com.funnyrider34rus.ridester.ui.dashboard.DashboardViewState
 import com.funnyrider34rus.ridester.ui.dashboard.LikesStatus
 import com.skydoves.landscapist.ImageOptions
@@ -60,7 +60,7 @@ fun DashboardItem(
 }
 
 @Composable
-fun ContentBody(modifier: Modifier, content: DashboardContent, viewModel: DashboardVewModel = hiltViewModel()) {
+fun ContentBody(modifier: Modifier, content: DashboardContent, viewModel: DashboardViewModel = hiltViewModel()) {
 
     val viewState by viewModel.viewState.collectAsState(DashboardViewState())
     val painter = rememberAsyncImagePainter(content.image)
@@ -119,7 +119,7 @@ fun Footer(
     modifier: Modifier,
     content: DashboardContent,
     navigateToComment: () -> Unit,
-    viewModel: DashboardVewModel = hiltViewModel()
+    viewModel: DashboardViewModel = hiltViewModel()
 ) {
     Row(
         modifier = modifier

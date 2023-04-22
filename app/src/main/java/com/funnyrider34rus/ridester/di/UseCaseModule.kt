@@ -1,6 +1,5 @@
 package com.funnyrider34rus.ridester.di
 
-import com.funnyrider34rus.ridester.domain.model.CurrentUser
 import com.funnyrider34rus.ridester.domain.repository.DashboardContentRepository
 import com.funnyrider34rus.ridester.domain.use_case.dashboard.DashboardUseCases
 import com.funnyrider34rus.ridester.domain.use_case.dashboard.DashboardGetContentUseCase
@@ -16,8 +15,8 @@ import javax.inject.Singleton
 object UseCaseModule {
     @Provides
     @Singleton
-    fun provideDashboardUseCase(dashboardContentRepository: DashboardContentRepository, currentUser: CurrentUser) = DashboardUseCases(
+    fun provideDashboardUseCase(dashboardContentRepository: DashboardContentRepository) = DashboardUseCases(
         getDashboardContent = DashboardGetContentUseCase(dashboardContentRepository),
-        likeClick = DashboardLikeClickUseCase(dashboardContentRepository, currentUser)
+        likeClick = DashboardLikeClickUseCase(dashboardContentRepository)
     )
 }

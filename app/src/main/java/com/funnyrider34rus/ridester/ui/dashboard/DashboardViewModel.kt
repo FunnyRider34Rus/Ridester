@@ -3,8 +3,9 @@ package com.funnyrider34rus.ridester.ui.dashboard
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.funnyrider34rus.ridester.core.util.Response
-import com.funnyrider34rus.ridester.domain.model.CurrentUser
 import com.funnyrider34rus.ridester.domain.use_case.dashboard.DashboardUseCases
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,9 +13,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DashboardVewModel @Inject constructor(
-    private val useCases: DashboardUseCases,
-    private val currentUser: CurrentUser
+class DashboardViewModel @Inject constructor(
+    private val useCases: DashboardUseCases
 ) : ViewModel() {
     private val _viewState = MutableStateFlow(DashboardViewState())
     val viewState: StateFlow<DashboardViewState> = _viewState
@@ -46,7 +46,7 @@ class DashboardVewModel @Inject constructor(
     fun getLikeStatus(list: List<String>?): LikesStatus {
         var result: LikesStatus
         result = if (list.isNullOrEmpty()) LikesStatus.NONE else LikesStatus.UNLIKE
-        if (list?.contains(currentUser.uid) == true) result = LikesStatus.LIKE
+        if (list?.contains(Firebase.auth.currentUser?.uid) == true) result = LikesStatus.LIKE
         return result
     }
 

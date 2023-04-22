@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.lifecycleScope
 import com.funnyrider34rus.ridester.R
 import com.funnyrider34rus.ridester.core.components.RidesterErrorWidget
 import com.funnyrider34rus.ridester.core.navigation.Navigation
@@ -17,13 +18,20 @@ import com.funnyrider34rus.ridester.core.navigation.Screen
 import com.funnyrider34rus.ridester.core.theme.RidesterTheme
 import com.funnyrider34rus.ridester.core.util.InternetConnectionState
 import com.funnyrider34rus.ridester.core.util.connectivityState
+import com.funnyrider34rus.ridester.domain.model.UserOnlineStatus
+import com.funnyrider34rus.ridester.domain.repository.AuthRepository
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.android.gms.common.GoogleApiAvailability
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var authRepository: AuthRepository
 
     private val viewModel by viewModels<MainActivityViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +40,20 @@ class MainActivity : ComponentActivity() {
             RidesterTheme {
                 RidesterApp()
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launch {
+            authRepository.writeUserToDB(UserOnlineStatus.ONLINE)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        lifecycleScope.launch {
+            authRepository.writeUserToDB(UserOnlineStatus.OFFLINE)
         }
     }
 
