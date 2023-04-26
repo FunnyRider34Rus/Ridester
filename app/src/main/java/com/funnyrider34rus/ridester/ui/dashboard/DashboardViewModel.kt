@@ -4,9 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.funnyrider34rus.ridester.core.util.Response
 import com.funnyrider34rus.ridester.domain.use_case.dashboard.DashboardUseCases
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -23,7 +22,7 @@ class DashboardViewModel @Inject constructor(
         getDashboardContent()
     }
 
-    private fun getDashboardContent() = viewModelScope.launch {
+    private fun getDashboardContent() = viewModelScope.launch(Dispatchers.IO) {
         useCases.getDashboardContent.invoke().collect { result ->
             when (result) {
                 is Response.Loading -> {
@@ -43,14 +42,7 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-    fun getLikeStatus(list: List<String>?): LikesStatus {
-        var result: LikesStatus
-        result = if (list.isNullOrEmpty()) LikesStatus.NONE else LikesStatus.UNLIKE
-        if (list?.contains(Firebase.auth.currentUser?.uid) == true) result = LikesStatus.LIKE
-        return result
-    }
-
-    fun onEvent(event: DashboardEvent) = viewModelScope.launch {
+    fun onEvent(event: DashboardEvent) = viewModelScope.launch(Dispatchers.IO) {
         when (event) {
             is DashboardEvent.ContentClick -> {
                 _viewState.value = _viewState.value.copy(isBodyExpand = !_viewState.value.isBodyExpand)

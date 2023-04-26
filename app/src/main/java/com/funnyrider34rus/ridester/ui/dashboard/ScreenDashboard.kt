@@ -16,7 +16,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.funnyrider34rus.ridester.R
 import com.funnyrider34rus.ridester.core.components.RidesterLoadingWidget
 import com.funnyrider34rus.ridester.core.components.RidesterTopAppBar
@@ -28,10 +27,10 @@ fun ScreenDashboard(
     modifier: Modifier,
     navigateToComment: () -> Unit,
     navigateToAddPost: () -> Unit,
-    viewModel: DashboardViewModel = hiltViewModel()
+    state: DashboardViewState,
+    onEvent: (DashboardEvent) -> Unit
 ) {
 
-    val viewState by viewModel.viewState.collectAsState(DashboardViewState())
     val lazyListState = rememberLazyListState()
 
     Box(modifier = modifier) {
@@ -59,18 +58,19 @@ fun ScreenDashboard(
                 state = lazyListState,
                 flingBehavior = rememberSnapFlingBehavior(lazyListState = lazyListState)
             ) {
-                items(viewState.content) { item ->
+                items(state.content) { item ->
                     DashboardItem(
                         modifier = Modifier.fillParentMaxHeight(),
                         content = item,
-                        navigateToComment = navigateToComment
+                        navigateToComment = navigateToComment,
+                        state = state,
+                        onEvent = onEvent
                     )
                 }
             }
 
         }
 
-        if (viewState.isLoading) RidesterLoadingWidget(modifier = Modifier.fillMaxSize())
-
+        if (state.isLoading) RidesterLoadingWidget(modifier = Modifier.fillMaxSize())
     }
 }

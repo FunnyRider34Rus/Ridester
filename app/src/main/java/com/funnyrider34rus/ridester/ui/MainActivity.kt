@@ -23,6 +23,7 @@ import com.funnyrider34rus.ridester.domain.repository.AuthRepository
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.android.gms.common.GoogleApiAvailability
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -45,14 +46,14 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             authRepository.writeUserToDB(UserOnlineStatus.ONLINE)
         }
     }
 
     override fun onPause() {
         super.onPause()
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             authRepository.writeUserToDB(UserOnlineStatus.OFFLINE)
         }
     }

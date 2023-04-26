@@ -1,11 +1,14 @@
 package com.funnyrider34rus.ridester.core.util
 
 import com.funnyrider34rus.ridester.domain.model.User
+import com.funnyrider34rus.ridester.ui.dashboard.LikesStatus
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 
 suspend fun getUserByUid(firestore: FirebaseFirestore, uid: String) =
     firestore.collection(FIRESTORE_NODE_USERS).document(uid).get().await()
@@ -29,4 +32,11 @@ fun addOrRemoveIfContains(source: List<String>?, value: String): List<String>? {
         modified = mutableListOf(value)
     }
     return modified
+}
+
+fun getLikeStatus(list: List<String>?): LikesStatus {
+    var result: LikesStatus
+    result = if (list.isNullOrEmpty()) LikesStatus.NONE else LikesStatus.UNLIKE
+    if (list?.contains(Firebase.auth.currentUser?.uid) == true) result = LikesStatus.LIKE
+    return result
 }

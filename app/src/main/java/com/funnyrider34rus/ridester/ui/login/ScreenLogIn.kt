@@ -11,7 +11,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,7 +20,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.funnyrider34rus.ridester.R
 import com.funnyrider34rus.ridester.core.components.RidesterCenterTopAppBar
 import com.funnyrider34rus.ridester.core.components.RidesterErrorWidget
@@ -35,12 +33,12 @@ import com.google.firebase.auth.GoogleAuthProvider
 @Composable
 fun ScreenLogIn(
     navigateToMain: () -> Unit,
-    viewModel: LogInViewModel = hiltViewModel()
+    state: LogInViewState,
+    onEvent: (LogInEvent) -> Unit
 ) {
 
     val containerScrollState = rememberScrollState()
     val textScrollState = rememberScrollState()
-    val viewState = viewModel.viewState.collectAsState()
 
     val context = LocalContext.current
     val token = stringResource(R.string.default_web_client_id)
@@ -50,13 +48,13 @@ fun ScreenLogIn(
         try {
             val account = task.getResult(ApiException::class.java)!!
             val credential = GoogleAuthProvider.getCredential(account.idToken!!, null)
-            viewModel.onEvent(LogInEvent.ButtonClick(credential))
+            onEvent(LogInEvent.ButtonClick(credential))
         } catch (e: ApiException) {
-            viewModel.onEvent(LogInEvent.Error(e.localizedMessage))
+            onEvent(LogInEvent.Error(e.localizedMessage))
         }
     }
 
-    if (viewState.value.isUserAuth) {
+    if (state.isUserAuth) {
         navigateToMain.invoke()
     }
 
@@ -70,18 +68,18 @@ fun ScreenLogIn(
         }
     ) { paddingValues ->
 
-        if (viewState.value.isLoading) {
+        if (state.isLoading) {
             RidesterLoadingWidget(
                 modifier = Modifier.padding(paddingValues)
             )
         }
 
-        if (viewState.value.isError) {
+        if (state.isError) {
             val activity = (LocalContext.current as? Activity)
             RidesterErrorWidget(
                 modifier = Modifier.padding(paddingValues),
                 title = "Error",
-                text = viewState.value.error,
+                text = state.error,
                 buttonText = stringResource(id = R.string.screen_login_error_button),
                 onButtonClick = { activity?.finish() }
             )
@@ -108,8 +106,8 @@ fun ScreenLogIn(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Checkbox(
-                    checked = viewState.value.isCheck,
-                    onCheckedChange = { viewModel.onEvent(LogInEvent.CheckBoxClick) }
+                    checked = state.isCheck,
+                    onCheckedChange = { onEvent(LogInEvent.CheckBoxClick) }
                 )
                 Text(
                     text = stringResource(id = R.string.screen_login_checkbox),
@@ -128,7 +126,7 @@ fun ScreenLogIn(
                     launcher.launch(googleSignInClient.signInIntent)
                 },
                 modifier = Modifier.fillMaxWidth(),
-                enabled = viewState.value.isCheck,
+                enabled = state.isCheck,
                 contentPadding = ButtonDefaults.ContentPadding
             ) {
                 Icon(
@@ -151,5 +149,9 @@ fun ScreenLogIn(
 @Preview
 @Composable
 fun LoginInPreview() {
-    ScreenLogIn({  })
+    ScreenLogIn(
+        navigateToMain = {  },
+        state = LogInViewState(),
+        onEvent = {  }
+    )
 }

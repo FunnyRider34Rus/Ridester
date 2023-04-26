@@ -2,13 +2,29 @@ package com.funnyrider34rus.ridester.ui.dashboard.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -17,14 +33,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.funnyrider34rus.ridester.R
 import com.funnyrider34rus.ridester.core.components.RidesterCenterTopAppBar
+import com.funnyrider34rus.ridester.core.util.getLikeStatus
 import com.funnyrider34rus.ridester.core.util.timestampToDate
 import com.funnyrider34rus.ridester.domain.model.DashboardContent
 import com.funnyrider34rus.ridester.ui.dashboard.DashboardEvent
-import com.funnyrider34rus.ridester.ui.dashboard.DashboardViewModel
 import com.funnyrider34rus.ridester.ui.dashboard.DashboardViewState
 import com.funnyrider34rus.ridester.ui.dashboard.LikesStatus
 import com.skydoves.landscapist.ImageOptions
@@ -36,7 +51,9 @@ import com.skydoves.landscapist.transformation.blur.BlurTransformationPlugin
 fun DashboardItem(
     modifier: Modifier,
     content: DashboardContent,
-    navigateToComment: () -> Unit
+    navigateToComment: () -> Unit,
+    state: DashboardViewState,
+    onEvent: (DashboardEvent) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -48,21 +65,23 @@ fun DashboardItem(
 
         ContentBody(
             modifier = Modifier.weight(1f),
-            content = content
+            content = content,
+            state = state,
+            onEvent = onEvent
         )
 
         Footer(
             modifier = Modifier.wrapContentHeight(Alignment.CenterVertically),
             content = content,
-            navigateToComment = navigateToComment
+            navigateToComment = navigateToComment,
+            onEvent = onEvent
         )
     }
 }
 
 @Composable
-fun ContentBody(modifier: Modifier, content: DashboardContent, viewModel: DashboardViewModel = hiltViewModel()) {
+fun ContentBody(modifier: Modifier, content: DashboardContent, state: DashboardViewState, onEvent: (DashboardEvent) -> Unit) {
 
-    val viewState by viewModel.viewState.collectAsState(DashboardViewState())
     val painter = rememberAsyncImagePainter(content.image)
     var isEllipsis by remember { mutableStateOf(false) }
     val scroll = rememberScrollState(0)
@@ -92,16 +111,16 @@ fun ContentBody(modifier: Modifier, content: DashboardContent, viewModel: Dashbo
                 .align(Alignment.BottomCenter)
                 .padding(horizontal = 16.dp, vertical = 32.dp)
                 .clickable {
-                    if (isEllipsis) viewModel.onEvent(DashboardEvent.ContentClick)
+                    if (isEllipsis) onEvent(DashboardEvent.ContentClick)
                 }
                 .verticalScroll(scroll),
             color = MaterialTheme.colorScheme.background,
-            overflow = if (viewState.isBodyExpand) TextOverflow.Visible else TextOverflow.Ellipsis,
-            maxLines = if (viewState.isBodyExpand) Int.MAX_VALUE else 3,
+            overflow = if (state.isBodyExpand) TextOverflow.Visible else TextOverflow.Ellipsis,
+            maxLines = if (state.isBodyExpand) Int.MAX_VALUE else 3,
             onTextLayout = { textLayoutResult ->
                 if (textLayoutResult.hasVisualOverflow) isEllipsis = true
             },
-            style = if (viewState.isBodyExpand) MaterialTheme.typography.headlineSmall else MaterialTheme.typography.bodyLarge
+            style = if (state.isBodyExpand) MaterialTheme.typography.headlineSmall else MaterialTheme.typography.bodyLarge
         )
         Text(
             text = timestampToDate(content.timestamp),
@@ -119,7 +138,7 @@ fun Footer(
     modifier: Modifier,
     content: DashboardContent,
     navigateToComment: () -> Unit,
-    viewModel: DashboardViewModel = hiltViewModel()
+    onEvent: (DashboardEvent) -> Unit
 ) {
     Row(
         modifier = modifier
@@ -128,16 +147,16 @@ fun Footer(
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(
-            onClick = { viewModel.onEvent(DashboardEvent.LikeClick(content)) }
+            onClick = { onEvent(DashboardEvent.LikeClick(content)) }
         ) {
             Icon(
-                painter = when (viewModel.getLikeStatus(content.likes)) {
+                painter = when (getLikeStatus(content.likes)) {
                     LikesStatus.NONE -> painterResource(R.drawable.ic_like_outline)
                     else -> painterResource(R.drawable.ic_like)
                 },
                 contentDescription = null,
                 modifier = Modifier.size(32.dp),
-                tint = when (viewModel.getLikeStatus(content.likes)) {
+                tint = when (getLikeStatus(content.likes)) {
                     LikesStatus.LIKE -> MaterialTheme.colorScheme.error
                     else -> MaterialTheme.colorScheme.primary
                 }
@@ -183,8 +202,9 @@ fun Footer(
 fun DashboardPreview() {
     DashboardItem(
         modifier = Modifier,
-        content = DashboardContent()
-    ) {
-
-    }
+        content = DashboardContent(),
+        navigateToComment = {  },
+        state = DashboardViewState(),
+        onEvent = {  }
+    )
 }
