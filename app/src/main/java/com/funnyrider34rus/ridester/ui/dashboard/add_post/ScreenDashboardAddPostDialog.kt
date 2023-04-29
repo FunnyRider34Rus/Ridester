@@ -1,36 +1,51 @@
 package com.funnyrider34rus.ridester.ui.dashboard.add_post
 
-import androidx.compose.foundation.clickable
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Error
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.funnyrider34rus.ridester.R
 import com.funnyrider34rus.ridester.core.components.RidesterCenterTopAppBar
-import com.funnyrider34rus.ridester.core.components.RidesterOutlinedTextField
+import com.funnyrider34rus.ridester.core.components.RidesterLoadingWidget
+import com.skydoves.landscapist.ImageOptions
+import com.skydoves.landscapist.coil.CoilImage
 
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ScreenDashboardAddPostDialog(
     navigateToBack: () -> Unit,
-    viewModel: DashboardAddPostDialogViewModel = hiltViewModel()
+    state: DashboardAddPostDialogViewState,
+    onEvent: (DashboardAddPostDialogEvent) -> Unit
 ) {
 
-    val viewState by viewModel.viewState.collectAsState(DashboardAddPostDialogViewState())
-    val focusManager = LocalFocusManager.current
+    val galleryLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { imageUri ->
+            if (imageUri == null) navigateToBack.invoke() else onEvent(DashboardAddPostDialogEvent.SelectedImage(imageUri))
+        }
+
+    LaunchedEffect(true) {
+        galleryLauncher.launch("image/*")
+    }
 
     Column {
         RidesterCenterTopAppBar(
@@ -41,32 +56,45 @@ fun ScreenDashboardAddPostDialog(
             onNavigationClick = navigateToBack
         )
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 32.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier.fillMaxSize()
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_add_media),
-                contentDescription = null,
-                modifier = Modifier
-                    .padding(top = 88.dp)
-                    .size(88.dp)
-                    .clickable { /*TODO*/ },
-                tint = MaterialTheme.colorScheme.primary
+            CoilImage(
+                imageModel = { state.image },
+                modifier = Modifier.weight(1f),
+                imageOptions = ImageOptions(
+                    alignment = Alignment.Center,
+                    contentScale = ContentScale.Crop
+                )
             )
-            RidesterOutlinedTextField(
-                value = viewState.body,
-                onValueChange = { viewModel.onEvent(DashboardAddPostDialogEvent.EnteredBody(it)) },
+            Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 88.dp),
-                label = R.string.screen_dashboard_add_post_textfield_body,
-                focusManager = focusManager,
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Default,
-                singleLine = false
-            )
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TextField(
+                    value = state.body,
+                    onValueChange = { onEvent(DashboardAddPostDialogEvent.EnteredBody(it)) },
+                    modifier = Modifier.weight(1f).padding(TextFieldDefaults.textFieldWithoutLabelPadding()),
+                    isError = state.isError,
+                    trailingIcon = {
+                        if (state.isError)
+                            Icon(Icons.Filled.Error,"error", tint = MaterialTheme.colorScheme.error)
+                    },
+                )
+                IconButton(
+                    onClick = { onEvent(DashboardAddPostDialogEvent.ButtonDone(state.image, state.body)) }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_send_outline),
+                        contentDescription = null,
+                        modifier = Modifier.size(32.dp),
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
         }
     }
+
+    if (state.isDone) navigateToBack.invoke()
+    if (state.isLoading) RidesterLoadingWidget(modifier = Modifier.fillMaxSize())
 }

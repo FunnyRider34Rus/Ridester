@@ -19,7 +19,9 @@ import androidx.compose.ui.unit.dp
 import com.funnyrider34rus.ridester.R
 import com.funnyrider34rus.ridester.core.components.RidesterLoadingWidget
 import com.funnyrider34rus.ridester.core.components.RidesterTopAppBar
-import com.funnyrider34rus.ridester.ui.dashboard.components.DashboardItem
+import com.funnyrider34rus.ridester.domain.model.DashboardType
+import com.funnyrider34rus.ridester.ui.dashboard.components.DashboardNewsItem
+import com.funnyrider34rus.ridester.ui.dashboard.components.DashboardPostItem
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -59,13 +61,27 @@ fun ScreenDashboard(
                 flingBehavior = rememberSnapFlingBehavior(lazyListState = lazyListState)
             ) {
                 items(state.content) { item ->
-                    DashboardItem(
-                        modifier = Modifier.fillParentMaxHeight(),
-                        content = item,
-                        navigateToComment = navigateToComment,
-                        state = state,
-                        onEvent = onEvent
-                    )
+                    when (item.type) {
+                        DashboardType.NEWS -> {
+                            DashboardNewsItem(
+                                modifier = Modifier.fillParentMaxHeight(),
+                                content = item,
+                                navigateToComment = navigateToComment,
+                                state = state,
+                                onEvent = onEvent
+                            )
+                        }
+                        DashboardType.POST -> {
+                            DashboardPostItem(
+                                modifier = Modifier.fillParentMaxHeight(),
+                                content = item,
+                                navigateToComment = navigateToComment,
+                                state = state,
+                                onEvent = onEvent
+                            )
+                        }
+                        null -> TODO()
+                    }
                 }
             }
 

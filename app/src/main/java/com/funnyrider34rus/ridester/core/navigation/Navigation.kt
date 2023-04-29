@@ -18,6 +18,7 @@ import com.funnyrider34rus.ridester.core.util.ANIMATENAVTIME
 import com.funnyrider34rus.ridester.ui.chat.ScreenChat
 import com.funnyrider34rus.ridester.ui.dashboard.DashboardViewModel
 import com.funnyrider34rus.ridester.ui.dashboard.ScreenDashboard
+import com.funnyrider34rus.ridester.ui.dashboard.add_post.DashboardAddPostDialogViewModel
 import com.funnyrider34rus.ridester.ui.dashboard.add_post.ScreenDashboardAddPostDialog
 import com.funnyrider34rus.ridester.ui.login.LogInViewModel
 import com.funnyrider34rus.ridester.ui.login.ScreenLogIn
@@ -143,11 +144,16 @@ fun Navigation(navController: NavHostController, startDestination: String) {
                     )
                 }
             ) {
+                val viewModel = hiltViewModel<DashboardAddPostDialogViewModel>()
+                val state by viewModel.viewState.collectAsState()
+
                 ScreenDashboardAddPostDialog(navigateToBack = {
                     navController.navigate(Screen.DASHBOARDLIST.route) {
                         popUpTo(Screen.DASHBOARDLIST.route)
                     }
-                })
+                },
+                state = state,
+                onEvent = viewModel::onEvent)
             }
 
             composable(route = Screen.CHAT.route,

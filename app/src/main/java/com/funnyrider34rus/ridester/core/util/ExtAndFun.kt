@@ -1,18 +1,29 @@
 package com.funnyrider34rus.ridester.core.util
 
 import com.funnyrider34rus.ridester.domain.model.User
+import com.funnyrider34rus.ridester.domain.model.UserOnlineStatus
 import com.funnyrider34rus.ridester.ui.dashboard.LikesStatus
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-suspend fun getUserByUid(firestore: FirebaseFirestore, uid: String) =
-    firestore.collection(FIRESTORE_NODE_USERS).document(uid).get().await()
+suspend fun getUserByUid(uid: String) =
+    Firebase.firestore.collection(FIRESTORE_NODE_USERS).document(uid).get().await()
         .toObject(User::class.java)
+
+fun getCurrentUser(): User = User(
+    uid = FirebaseAuth.getInstance().currentUser?.uid,
+    displayName = FirebaseAuth.getInstance().currentUser?.displayName,
+    photoURL = FirebaseAuth.getInstance().currentUser?.photoUrl.toString(),
+    userLatLng = null,
+    userStatus = UserOnlineStatus.ONLINE
+)
+
 
 fun timestampToDate(timestamp: Timestamp?): String {
     val long = (timestamp?.seconds?.times(1000) ?: 0) + (timestamp?.nanoseconds?.div(1000000) ?: 0)

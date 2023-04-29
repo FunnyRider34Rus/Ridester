@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,6 +38,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.funnyrider34rus.ridester.R
 import com.funnyrider34rus.ridester.core.components.RidesterCenterTopAppBar
 import com.funnyrider34rus.ridester.core.util.getLikeStatus
+import com.funnyrider34rus.ridester.core.util.getUserByUid
 import com.funnyrider34rus.ridester.core.util.timestampToDate
 import com.funnyrider34rus.ridester.domain.model.DashboardContent
 import com.funnyrider34rus.ridester.ui.dashboard.DashboardEvent
@@ -46,31 +48,35 @@ import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.transformation.blur.BlurTransformationPlugin
+import kotlinx.coroutines.runBlocking
 
 @Composable
-fun DashboardItem(
+fun DashboardPostItem(
     modifier: Modifier,
     content: DashboardContent,
     navigateToComment: () -> Unit,
     state: DashboardViewState,
     onEvent: (DashboardEvent) -> Unit
 ) {
+    val profileName = runBlocking { getUserByUid(content.uid.toString())?.displayName }
+    val profileImage = runBlocking { getUserByUid(content.uid.toString())?.photoURL }
+
     Column(
         modifier = modifier
     ) {
         RidesterCenterTopAppBar(
-            title = content.title.toString(),
-            modifier = Modifier
+            modifier = Modifier,
+            profileName = profileName.toString(),
+            profileImage = profileImage.toString()
         )
-
-        ContentBody(
+        ContentPostBody(
             modifier = Modifier.weight(1f),
             content = content,
             state = state,
             onEvent = onEvent
         )
 
-        Footer(
+        ContentPostFooter(
             modifier = Modifier.wrapContentHeight(Alignment.CenterVertically),
             content = content,
             navigateToComment = navigateToComment,
@@ -80,7 +86,12 @@ fun DashboardItem(
 }
 
 @Composable
-fun ContentBody(modifier: Modifier, content: DashboardContent, state: DashboardViewState, onEvent: (DashboardEvent) -> Unit) {
+fun ContentPostBody(
+    modifier: Modifier,
+    content: DashboardContent,
+    state: DashboardViewState,
+    onEvent: (DashboardEvent) -> Unit
+) {
 
     val painter = rememberAsyncImagePainter(content.image)
     var isEllipsis by remember { mutableStateOf(false) }
@@ -134,7 +145,7 @@ fun ContentBody(modifier: Modifier, content: DashboardContent, state: DashboardV
 }
 
 @Composable
-fun Footer(
+fun ContentPostFooter(
     modifier: Modifier,
     content: DashboardContent,
     navigateToComment: () -> Unit,
@@ -199,12 +210,12 @@ fun Footer(
 
 @Preview
 @Composable
-fun DashboardPreview() {
-    DashboardItem(
+fun DashboardPostPreview() {
+    DashboardPostItem(
         modifier = Modifier,
         content = DashboardContent(),
-        navigateToComment = {  },
+        navigateToComment = { },
         state = DashboardViewState(),
-        onEvent = {  }
+        onEvent = { }
     )
 }

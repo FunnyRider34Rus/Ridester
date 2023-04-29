@@ -23,8 +23,7 @@
     <string name="screen_login_button_description">Войти с аккаунтом Google</string>
     <string name="screen_login_error_button">Выйти</string>
 
-    <!-- resources for login screen -->
+    <!-- resources for add post screen -->
     <string name="screen_dashboard_add_post_appbar_title">Разместить пост</string>
-    <string name="screen_dashboard_add_post_textfield_title">Заголовок</string>
     <string name="screen_dashboard_add_post_textfield_body">Сообщение</string>
 </resources>

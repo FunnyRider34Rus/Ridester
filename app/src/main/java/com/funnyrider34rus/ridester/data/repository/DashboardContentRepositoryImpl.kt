@@ -6,6 +6,7 @@ import com.funnyrider34rus.ridester.data.model.DashboardContentDTO
 import com.funnyrider34rus.ridester.data.model.toDashboardContent
 import com.funnyrider34rus.ridester.domain.model.DashboardContent
 import com.funnyrider34rus.ridester.domain.repository.DashboardContentRepository
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
@@ -13,6 +14,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
+import java.util.Date
 import javax.inject.Inject
 
 class DashboardContentRepositoryImpl @Inject constructor(private val referenceLink: CollectionReference) :
@@ -34,7 +36,10 @@ class DashboardContentRepositoryImpl @Inject constructor(private val referenceLi
     override suspend fun insert(data: DashboardContent): Response<Boolean> {
         return try {
             val key = referenceLink.document().id
-            val mData = data.copy(key = key)
+            val mData = data.copy(
+                key = key,
+                timestamp = Timestamp(Date())
+                )
             referenceLink.document(key).set(mData).await()
             Response.Success(true)
         } catch (e: Exception) {

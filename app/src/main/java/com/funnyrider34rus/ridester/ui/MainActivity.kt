@@ -35,6 +35,7 @@ class MainActivity : ComponentActivity() {
     lateinit var authRepository: AuthRepository
 
     private val viewModel by viewModels<MainActivityViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -42,6 +43,13 @@ class MainActivity : ComponentActivity() {
                 RidesterApp()
             }
         }
+    }
+
+    @Composable
+    fun RidesterApp() {
+        CheckGooglePlayServicesAvailable()
+        CheckInternetConnection()
+        CheckUserAuth()
     }
 
     override fun onResume() {
@@ -56,13 +64,6 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             authRepository.writeUserToDB(UserOnlineStatus.OFFLINE)
         }
-    }
-
-    @Composable
-    fun RidesterApp() {
-        CheckGooglePlayServicesAvailable()
-        CheckInternetConnection()
-        CheckUserAuth()
     }
 
     @Composable
@@ -104,7 +105,6 @@ class MainActivity : ComponentActivity() {
             startDestination = startDestination
         )
     }
-
 }
 
 
