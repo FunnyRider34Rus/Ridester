@@ -105,7 +105,7 @@ fun RidesterCenterTopAppBar(
         navigationIcon = {
             CoilImage(
                 imageModel = { profileImage },
-                modifier = Modifier.padding(start = 16.dp).size(32.dp).clip(CircleShape)
+                modifier = Modifier.padding(start = 16.dp).size(40.dp).clip(CircleShape)
             )
         }
     )

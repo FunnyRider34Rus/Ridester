@@ -24,7 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,6 +57,7 @@ fun DashboardPostItem(
     state: DashboardViewState,
     onEvent: (DashboardEvent) -> Unit
 ) {
+
     val profileName = runBlocking { getUserByUid(content.uid.toString())?.displayName }
     val profileImage = runBlocking { getUserByUid(content.uid.toString())?.photoURL }
 
@@ -106,7 +106,7 @@ fun ContentPostBody(
             },
             imageOptions = ImageOptions(
                 alignment = Alignment.Center,
-                contentScale = ContentScale.FillHeight
+                contentScale = ContentScale.Crop
             )
         )
         Image(

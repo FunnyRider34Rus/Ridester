@@ -8,10 +8,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.funnyrider34rus.ridester.core.components.RidesterBottomNavBar
 import com.funnyrider34rus.ridester.core.util.ANIMATENAVTIME
@@ -70,7 +70,7 @@ fun Navigation(navController: NavHostController, startDestination: String) {
                 }
             ) {
                 val viewModel = hiltViewModel<LogInViewModel>()
-                val state by viewModel.viewState.collectAsState()
+                val state by viewModel.viewState.collectAsStateWithLifecycle()
                 ScreenLogIn(
                     navigateToMain = { navController.navigate(Screen.DASHBOARDLIST.route) },
                     state = state,
@@ -107,7 +107,7 @@ fun Navigation(navController: NavHostController, startDestination: String) {
                 }
             ) {
                 val viewModel = hiltViewModel<DashboardViewModel>()
-                val state by viewModel.viewState.collectAsState()
+                val state by viewModel.viewState.collectAsStateWithLifecycle()
                 ScreenDashboard(
                     modifier = modifier.fillMaxSize(),
                     navigateToComment = { },
@@ -145,7 +145,7 @@ fun Navigation(navController: NavHostController, startDestination: String) {
                 }
             ) {
                 val viewModel = hiltViewModel<DashboardAddPostDialogViewModel>()
-                val state by viewModel.viewState.collectAsState()
+                val state by viewModel.viewState.collectAsStateWithLifecycle()
 
                 ScreenDashboardAddPostDialog(navigateToBack = {
                     navController.navigate(Screen.DASHBOARDLIST.route) {

@@ -8,21 +8,24 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.funnyrider34rus.ridester.R
 import com.funnyrider34rus.ridester.core.components.RidesterCenterTopAppBar
@@ -30,7 +33,7 @@ import com.funnyrider34rus.ridester.core.components.RidesterLoadingWidget
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScreenDashboardAddPostDialog(
     navigateToBack: () -> Unit,
@@ -74,15 +77,38 @@ fun ScreenDashboardAddPostDialog(
                 TextField(
                     value = state.body,
                     onValueChange = { onEvent(DashboardAddPostDialogEvent.EnteredBody(it)) },
-                    modifier = Modifier.weight(1f).padding(TextFieldDefaults.textFieldWithoutLabelPadding()),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(TextFieldDefaults.textFieldWithoutLabelPadding()),
                     isError = state.isError,
+                    placeholder = {
+                        Text(text = stringResource(id = R.string.screen_dashboard_add_post_textfield_body))
+                    },
                     trailingIcon = {
                         if (state.isError)
-                            Icon(Icons.Filled.Error,"error", tint = MaterialTheme.colorScheme.error)
+                            Icon(
+                                Icons.Filled.Error,
+                                "error",
+                                tint = MaterialTheme.colorScheme.error
+                            )
                     },
+                    maxLines = 5,
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    )
                 )
                 IconButton(
-                    onClick = { onEvent(DashboardAddPostDialogEvent.ButtonDone(state.image, state.body)) }
+                    onClick = {
+                        onEvent(
+                            DashboardAddPostDialogEvent.ButtonDone(
+                                state.image,
+                                state.body
+                            )
+                        )
+                    }
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_send_outline),
@@ -97,4 +123,14 @@ fun ScreenDashboardAddPostDialog(
 
     if (state.isDone) navigateToBack.invoke()
     if (state.isLoading) RidesterLoadingWidget(modifier = Modifier.fillMaxSize())
+}
+
+@Preview
+@Composable
+fun AddPostPreview() {
+    ScreenDashboardAddPostDialog(
+        navigateToBack = {},
+        state = DashboardAddPostDialogViewState(),
+        onEvent = {}
+    )
 }

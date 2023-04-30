@@ -95,7 +95,7 @@ fun ContentNewsBody(modifier: Modifier, content: DashboardContent, state: Dashbo
             },
             imageOptions = ImageOptions(
                 alignment = Alignment.Center,
-                contentScale = ContentScale.FillHeight
+                contentScale = ContentScale.Crop
             )
         )
         Image(
